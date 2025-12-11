@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class SuratPengajuan extends Model
+{
+    use HasFactory;
+
+    protected $table = 'surat_pengajuan';
+
+    protected $fillable = [
+        'user_id',
+        'nama',
+        'npm',
+        'program_studi',
+        'jenis_surat',
+        'semester',
+        'tahun_akademik',
+        'tanggal',
+        'ttd',
+        'file_pdf',
+        'status',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
+}

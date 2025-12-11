@@ -1,0 +1,20 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
+class ProdiSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $now = Carbon::now();
+
+        DB::table('prodi')->insert([
+            ['nama' => 'Teknik Informatika', 'created_at' => $now, 'updated_at' => $now],
+            ['nama' => 'Perpustakaan & Sains Informasi', 'created_at' => $now, 'updated_at' => $now],
+        ]);
+    }
+}
