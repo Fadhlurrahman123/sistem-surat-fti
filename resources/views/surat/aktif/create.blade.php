@@ -67,7 +67,7 @@
       <input type="date" name="tanggal" class="w-full p-2 border rounded mb-3" required>
 
       <label class="block mb-2">Upload Tanda Tangan</label>
-      <input type="file" name="ttd" class="w-full mb-4" required>
+      <input type="file" name="ttd_mahasiswa" class="w-full mb-4" required>
 
       <div class="flex justify-end gap-2">
         <a href="{{ route('home') }}" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-700 transition">Kembali</a>

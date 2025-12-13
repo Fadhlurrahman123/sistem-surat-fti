@@ -28,7 +28,7 @@ class SuratAktifController extends Controller
             'tahun_akademik1' => 'required|numeric',
             'tahun_akademik2' => 'required|numeric',
             'tanggal'         => 'required|date',
-            'ttd'             => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'ttd_mahasiswa'   => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $surat = SuratPengajuan::create([
@@ -40,7 +40,7 @@ class SuratAktifController extends Controller
             'semester'       => $request->semester,
             'tahun_akademik' => "{$request->tahun_akademik1}/{$request->tahun_akademik2}",
             'tanggal'        => $request->tanggal,
-            'ttd'            => $request->file('ttd')->store('tanda_tangan', 'public'),
+            'ttd_mahasiswa'  => $request->file('ttd_mahasiswa')->store('tanda_tangan', 'public'),
             'status'         => 'Menunggu'
         ]);
 
@@ -66,7 +66,7 @@ class SuratAktifController extends Controller
             "tahun1" => $tahun[0],
             "tahun2" => $tahun[1],
             "tanggal"  => $surat->tanggal,
-            "ttd_mhs"  => asset('storage/' . $surat->ttd),
+            "ttd_mahasiswa"  => asset('storage/' . $surat->ttd),
 
         ];
 

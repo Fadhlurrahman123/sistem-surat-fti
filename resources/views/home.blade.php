@@ -80,6 +80,8 @@
                 </svg>
                 Ajukan Surat
             </a>
+            <img src="{{ asset('storage/1CfsNjsWm7O4fQksCCrXfqfHvI4iVICA7J66hWWw.jpg' . $surat->ttd) }}" alt="TTD Mahasiswa" style="width:200px; height:auto;">
+
         </div>
     @endforeach
 </div>
