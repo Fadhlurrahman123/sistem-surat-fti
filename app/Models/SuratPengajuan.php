@@ -13,16 +13,17 @@ class SuratPengajuan extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
+        'nama',
         'npm',
         'program_studi',
         'jenis_surat',
         'semester',
         'tahun_akademik',
         'tanggal',
+        'alasan',
         'nama_orangtua',
         'nama_kaprodi',
-        'ttd',
+        'ttd_mahasiswa',
         'ttd_orangtua',
         'ttd_kaprodi',
         'file_pdf',
@@ -30,8 +31,6 @@ class SuratPengajuan extends Model
         'nominal_pembayaran',
         'status'
     ];
-
-
 
     public function user()
     {

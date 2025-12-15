@@ -14,49 +14,46 @@ class SuratController extends Controller
        HALAMAN CREATE
        ============================ */
     public function create($jenis)
-{
-    if ($jenis == 'aktif') {
-        $jenisFull = "Surat Keterangan Aktif";
-    } elseif ($jenis == 'cuti') {
-        $jenisFull = "Surat Cuti Akademik";
-    } elseif ($jenis == 'persetujuan-aktif') {
-        $jenisFull = "Surat Persetujuan Aktif Akademik";
-    } else {
-        abort(404);
+    {
+        if ($jenis == 'aktif') {
+            $jenisFull = "Surat Keterangan Aktif";
+        } elseif ($jenis == 'cuti') {
+            $jenisFull = "Surat Cuti Akademik";
+        } elseif ($jenis == 'persetujuan-aktif') {
+            $jenisFull = "Surat Persetujuan Aktif Akademik";
+        } else {
+            abort(404);
+        }
+
+        return view('surat.' . $jenis . '.create', compact('jenisFull'));
     }
 
-    return view('surat.' . $jenis . '.create', compact('jenisFull'));
+    public function store(Request $request, $jenis)
+    {
+        // Simpan data ke database
+        $data = SuratPengajuan::create([
+            'user_id' => Auth::id(),
+            'jenis_surat' => $jenis,
+            'nama' => $request->nama,
+            'npm' => $request->npm,
+            'prodi' => $request->prodi ?? null,
+            'semester' => $request->semester ?? null,
+            'tahun_akademik1' => $request->tahun_akademik1 ?? null,
+            'tahun_akademik2' => $request->tahun_akademik2 ?? null,
+        ]);
 
-}
-
-public function store(Request $request, $jenis)
-{
-    // Simpan data ke database
-    $data = SuratPengajuan::create([
-        'user_id' => Auth::id(),
-        'jenis_surat' => $jenis,
-        'nama' => $request->nama,
-        'npm' => $request->npm,
-        'prodi' => $request->prodi ?? null,
-        'semester' => $request->semester ?? null,
-        'tahun_akademik1' => $request->tahun_akademik1 ?? null,
-        'tahun_akademik2' => $request->tahun_akademik2 ?? null,
-    ]);
-
-    return redirect()->route('surat.preview', $data->id);
-}
-
-
-
-
+        return redirect()->route('surat.preview', $data->id);
+    }
 
     /* ============================
        LOG & PREVIEW
        ============================ */
     public function preview($id)
     {
+        $data = SuratPengajuan::findOrFail($id);
+
         return view('surat.log_preview', [
-            'data' => SuratPengajuan::findOrFail($id)
+            'data' => $data,
         ]);
     }
 

@@ -3,69 +3,68 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use App\Models\SuratPengajuan;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class SuratCutiController extends Controller
 {
-    
-    public function create()
-{
-    return view('surat.cuti.create', [
-        'jenis' => 'cuti',
-        'jenisFull' => 'Surat Cuti Akademik'
-    ]);
-}
 
-    
+    public function create()
+    {
+        return view('surat.cuti.create');
+    }
+
     public function store(Request $request)
     {
-        $request->validate([
-            'jenis_surat'     => 'required|string',
-            'semester'        => 'required|string',
-            'tahun_akademik1' => 'required|numeric',
-            'tahun_akademik2' => 'required|numeric',
-            'tanggal'         => 'required|date',
-            'ttd_mahasiswa'   => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'alasan'          => 'required|string',
-            'nama_orangtua'   => 'required|string',
-            'ttd_orangtua'    => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        try {
+            $validated = $request->validate([
+                'nama' => 'required|string',
+                'npm' => 'required|string',
+                'program_studi' => 'nullable',
+                'nama_orangtua'   => 'required|string',
+                'nama_kaprodi'   => 'required|string',
+                'semester'        => 'required|string',
+                'tahun_akademik1' => 'required|numeric',
+                'tahun_akademik2' => 'required|numeric',
+                'alasan'          => 'required|string',
+                'tanggal'         => 'required|date',
+                'ttd_mahasiswa'   => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'ttd_orangtua'    => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            ]);
 
-        $surat = SuratPengajuan::create([
-            'user_id'        => Auth::id(),
-            'nama'           => Auth::user()->username,
-            'npm'            => Auth::user()->serial_number,
-            'program_studi'  => Auth::user()->study_program,
-            'jenis_surat'    => "Surat Cuti Akademik",
-            'semester'       => $request->semester,
-            'tahun_akademik' => "{$request->tahun_akademik1}/{$request->tahun_akademik2}",
-            'tanggal'        => $request->tanggal,
-            'ttd_mahasiswa'  => $request->file('ttd_mahasiswa')->store('tanda_tangan', 'public'),
-            'alasan'         => $request->alasan,
-            'nama_orangtua'  => $request->nama_orangtua,
-            'ttd_orangtua'   => $request->file('ttd_orangtua')->store('tanda_tangan', 'public'),
-            'nama_kaprodi'   => $request->nama_kaprodi ?? null,
-            'ttd_kaprodi'    => $request->hasFile('ttd_kaprodi')
-                                    ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
-                                    : null,
-            'status'         => 'Menunggu'
-        ]);
-
+            $surat = SuratPengajuan::create([
+                'user_id' => Auth::id(),
+                'nama'           => $validated['nama'],
+                'npm'            => $validated['npm'],
+                'program_studi'  => $validated['program_studi'],
+                'nama_orangtua'  => $validated['nama_orangtua'],
+                'nama_kaprodi'   => $validated['nama_kaprodi'],
+                'semester'       => $validated['semester'],
+                'tahun_akademik' => $validated['tahun_akademik1'] . ' / ' . $validated['tahun_akademik2'],
+                'alasan'         => $validated['alasan'],
+                'tanggal'        => $validated['tanggal'],
+                'ttd_mahasiswa'  => $request->file('ttd_mahasiswa')->store('tanda_tangan', 'public'),
+                'ttd_orangtua'   => $request->file('ttd_orangtua')->store('tanda_tangan', 'public'),
+                'jenis_surat'    => "Surat Cuti Akademik",
+                'tanggal_pengajuan' => Carbon::now(),
+            ]);
+        } catch (\Exception $e) {
+            return dd($e->getMessage());
+        }
         $this->sendToAppScriptCuti($surat);
 
         return redirect()->route('surat.preview', $surat->id);
     }
 
 
-            public function sendToAppScriptCuti($surat)
+    public function sendToAppScriptCuti($surat)
     {
         $scriptUrl = "https://script.google.com/macros/s/AKfycbxE0hg7hdZsQJt0hZdZLY-hVNhTNfWVio5AKopUEEQ17hHFKLxJT8Pg01HC8PaPAns1zw/exec";
 
         $tahun = explode('/', $surat->tahun_akademik);
-    
+
 
         $payload = [
             "id"               => $surat->id,
@@ -129,5 +128,4 @@ class SuratCutiController extends Controller
             }
         }
     }
-
 }

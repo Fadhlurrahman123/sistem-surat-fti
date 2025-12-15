@@ -5,21 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use App\Models\SuratPengajuan;
+use App\Models\User;
 
 class SuratAktifController extends Controller
 {
-    
-    public function create()
-{
-    return view('surat.aktif.create', [
-        'jenis' => 'aktif',
-        'jenisFull' => 'Surat Keterangan Aktif'
-    ]);
-}
 
-    
+    public function create()
+    {
+        return view('surat.aktif.create', [
+            'jenis' => 'aktif',
+            'jenisFull' => 'Surat Keterangan Aktif'
+        ]);
+    }
+
+
     public function store(Request $request)
     {
         $request->validate([
@@ -31,11 +31,13 @@ class SuratAktifController extends Controller
             'ttd_mahasiswa'   => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+        $user = User::where('id', Auth::id())->first();
+
         $surat = SuratPengajuan::create([
-            'user_id'        => Auth::id(),
-            'nama'           => Auth::user()->username,
-            'npm'            => Auth::user()->serial_number,
-            'program_studi'  => Auth::user()->study_program,
+            'user_id'        => $user->id,
+            'nama'           => $user->username,
+            'npm'            => $user->serial_number,
+            'program_studi'  => $user->study_program,
             'jenis_surat'    => "Surat Keterangan Aktif",
             'semester'       => $request->semester,
             'tahun_akademik' => "{$request->tahun_akademik1}/{$request->tahun_akademik2}",
@@ -66,10 +68,8 @@ class SuratAktifController extends Controller
             "tahun1" => $tahun[0],
             "tahun2" => $tahun[1],
             "tanggal"  => $surat->tanggal,
-            "ttd_mahasiswa"  => asset('storage/' . $surat->ttd),
-            
+            "ttd_mahasiswa"  => asset('storage/' . $surat->ttd_mahasiswa),
         ];
-
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json'
