@@ -5,79 +5,55 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
+
+        User::create([
+            'emailyarsi' => 'mahasiswa.account1@yarsi.co.id',
+            'username' => 'mahasiswa1',
+            'displayname' => 'mahasiswa account1',
+            'password' => Hash::make('password'),
+            'serial_number' => '1402021045',
+            'role' => 'M',
+        ]);
+ 
+
+
         $now = Carbon::now();
 
-        DB::table('users')->insert([
-            [
-                'username' => 'mahasiswa1',
-                'name' => 'Mahasiswa Fulan',
-                'email' => 'mahasiswa@yarsi.ac.id',
-                'password' => Hash::make('password123'),
-                'role' => 'mahasiswa',
-                'prodi_id' => 1,
-                'npm' => '1402020100',
-                'program_studi' => 'Teknik Informatika',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
+        // DB::table('users')->insert([
+        //     [
+        //         'username' => 'mahasiswa1',
+        //         'displayname' => 'Mahasiswa Fulan',
+        //         'email' => 'mahasiswa@gmail.com',
+        //         'emailyarsi' => 'mahasiswa123@yarsi.ac.id',
+        //         'password' => Hash::make('password123'),
+        //         'role' => 'M',
+        //         'serial_number' => '1402020100',
+        //         'study_program' => 'Teknik Informatika',
+        //         'faculty' => 'Teknologi Informasi',
+        //         'telephonenumber' => '087111110000',
+        //     ],
 
-            [
-                'username' => 'admin1',
-                'name' => 'Admin Utama',
-                'email' => 'admin@yarsi.ac.id',
-                'password' => Hash::make('admin123'),
-                'role' => 'admin',
-                'prodi_id' => null,
-                'npm' => null, // admin tidak punya npm
-                'program_studi' => null,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
 
-            [
-                'username' => 'dosen1',
-                'name' => 'Dosen Pembimbing',
-                'email' => 'dosen@yarsi.ac.id',
-                'password' => Hash::make('dosen123'),
-                'role' => 'dosen',
-                'prodi_id' => 1,
-                'npm' => null,
-                'program_studi' => 'Teknik Informatika',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
+        //     [
+                
+        //         'username' => 'dosen1',
+        //         'displayname' => 'Dosen Fulan',
+        //         'email' => 'dosen@gmail.com',
+        //         'emailyarsi' => 'dosen123@yarsi.ac.id',
+        //         'password' => Hash::make('password123'),
+        //         'role' => 'D',
+        //         'serial_number' => '0002020100',
+        //         'telephonenumber' => '087111110002',
+        //     ],
 
-            [
-                'username' => 'kaprodi1',
-                'name' => 'Kaprodi TI',
-                'email' => 'kaprodi@yarsi.ac.id',
-                'password' => Hash::make('kaprodi123'),
-                'role' => 'kaprodi',
-                'prodi_id' => 1,
-                'npm' => null,
-                'program_studi' => 'Teknik Informatika',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
 
-            [
-                'username' => 'dekan1',
-                'name' => 'Dekan FTI',
-                'email' => 'dekan@yarsi.ac.id',
-                'password' => Hash::make('dekan123'),
-                'role' => 'dekan',
-                'prodi_id' => null,
-                'npm' => null,
-                'program_studi' => null,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-        ]);
+        // ]);
     }
 }

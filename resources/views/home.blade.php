@@ -25,6 +25,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.879 6.196a9 9 0 01-13.758 11.608z" />
                     </svg>
                 </div>
+
+                <!-- Logout button -->
+                <a href="{{ route('logout') }}"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded shadow">
+                Logout
+                </a>
             </div>
         </div>
     </header>
@@ -68,6 +74,7 @@
                     $route = match($surat->nama_surat) {
                         'Surat Keterangan Aktif' => route('surat.aktif.create'),
                         'Surat Cuti Akademik' => route('surat.cuti.create'),
+                        'Surat Persetujuan Aktif Akademik' => route('surat.persetujuan-aktif.create'),
                         default => route('surat.aktif.create'),
                     };
 

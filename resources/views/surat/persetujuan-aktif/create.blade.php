@@ -33,7 +33,7 @@
 
     <h2 class="text-2xl font-semibold mb-6">Ajukan Surat</h2>
 
-    <form action="{{ route('surat.cuti.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('surat.persetujuan-aktif.store') }}" method="POST" enctype="multipart/form-data">
 
 
 
@@ -54,37 +54,14 @@
       <input type="hidden" name="jenis_surat" value="{{ $jenisFull }}">
 
 
-
-
-      <label class="block mb-2">Semester</label>
-      <select name="semester" class="w-full p-2 border rounded mb-3" required>
-        <option value="Ganjil">Ganjil</option>
-        <option value="Genap">Genap</option>
-      </select>
-
-      <label class="block mb-2">Tahun Akademik</label>
-      <div class="flex gap-2 mb-3">
-        <input type="number" name="tahun_akademik1" placeholder="2025" class="w-1/2 p-2 border rounded" required>
-        <input type="number" name="tahun_akademik2" placeholder="2026" class="w-1/2 p-2 border rounded" required>
-      </div>
-
-      {{-- ------------------------------ --}}
-      {{-- INPUT BARU: ALASAN --}}
-      {{-- ------------------------------ --}}
-      <label class="block mb-2">Alasan</label>
-      <textarea name="alasan" class="w-full p-2 border rounded mb-3" rows="3" placeholder="Tuliskan alasan anda..." required></textarea>
-
       <label class="block mb-2">Tanggal</label>
       <input type="date" name="tanggal" class="w-full p-2 border rounded mb-3" required>
 
-      <label class="block mb-2">Upload Tanda Tangan Mahasiswa</label>
-      <input type="file" name="ttd" class="w-full mb-4" required>
+      <label class="block mb-2">Tanggal Pembayaran</label>
+    <input type="date" name="tanggal_pengajuan" class="w-full p-2 border rounded mb-3" required>
 
-      {{-- ------------------------------ --}}
-      {{-- INPUT BARU: TTD ORANG TUA --}}
-      {{-- ------------------------------ --}}
-      <label class="block mb-2">Upload Tanda Tangan Orang Tua Mahasiswa</label>
-      <input type="file" name="ttd_orangtua" class="w-full mb-4" required>
+    <label class="block mb-2">Nominal Pembayaran</label>
+    <input type="text" name="nominal_pembayaran" class="w-full p-2 border rounded mb-3" placeholder="Rp 1.500.000" required>
 
       <div class="flex justify-end gap-2">
         <a href="{{ route('home') }}" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-700 transition">Kembali</a>

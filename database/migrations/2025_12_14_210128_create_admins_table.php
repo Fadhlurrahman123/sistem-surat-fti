@@ -9,11 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('prodi', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('username');
+            $table->string('password');
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }
@@ -21,8 +23,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('prodi');
+        Schema::dropIfExists('admins');
     }
 };

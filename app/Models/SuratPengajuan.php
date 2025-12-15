@@ -12,23 +12,25 @@ class SuratPengajuan extends Model
     protected $table = 'surat_pengajuan';
 
     protected $fillable = [
-    'user_id',
-    'nama',
-    'npm',
-    'program_studi',
-    'jenis_surat',
-    'semester',
-    'tahun_akademik',
-    'tanggal',
-    'alasan',
-    'nama_orangtua',
-    'nama_kaprodi',
-    'ttd',
-    'ttd_orangtua',
-    'ttd_kaprodi',
-    'file_pdf',
-    'status'
-];
+        'user_id',
+        'name',
+        'npm',
+        'program_studi',
+        'jenis_surat',
+        'semester',
+        'tahun_akademik',
+        'tanggal',
+        'nama_orangtua',
+        'nama_kaprodi',
+        'ttd',
+        'ttd_orangtua',
+        'ttd_kaprodi',
+        'file_pdf',
+        'tanggal_pengajuan',
+        'nominal_pembayaran',
+        'status'
+    ];
+
 
 
     public function user()

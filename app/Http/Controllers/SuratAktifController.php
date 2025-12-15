@@ -33,9 +33,9 @@ class SuratAktifController extends Controller
 
         $surat = SuratPengajuan::create([
             'user_id'        => Auth::id(),
-            'nama'           => Auth::user()->name,
-            'npm'            => Auth::user()->npm,
-            'program_studi'  => Auth::user()->program_studi,
+            'nama'           => Auth::user()->username,
+            'npm'            => Auth::user()->serial_number,
+            'program_studi'  => Auth::user()->study_program,
             'jenis_surat'    => "Surat Keterangan Aktif",
             'semester'       => $request->semester,
             'tahun_akademik' => "{$request->tahun_akademik1}/{$request->tahun_akademik2}",
@@ -67,7 +67,7 @@ class SuratAktifController extends Controller
             "tahun2" => $tahun[1],
             "tanggal"  => $surat->tanggal,
             "ttd_mahasiswa"  => asset('storage/' . $surat->ttd),
-
+            
         ];
 
 

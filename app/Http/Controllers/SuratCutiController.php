@@ -28,7 +28,7 @@ class SuratCutiController extends Controller
             'tahun_akademik1' => 'required|numeric',
             'tahun_akademik2' => 'required|numeric',
             'tanggal'         => 'required|date',
-            'ttd'             => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'ttd_mahasiswa'   => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'alasan'          => 'required|string',
             'nama_orangtua'   => 'required|string',
             'ttd_orangtua'    => 'required|image|mimes:jpg,jpeg,png|max:2048',
@@ -36,14 +36,14 @@ class SuratCutiController extends Controller
 
         $surat = SuratPengajuan::create([
             'user_id'        => Auth::id(),
-            'nama'           => Auth::user()->name,
-            'npm'            => Auth::user()->npm,
-            'program_studi'  => Auth::user()->program_studi,
+            'nama'           => Auth::user()->username,
+            'npm'            => Auth::user()->serial_number,
+            'program_studi'  => Auth::user()->study_program,
             'jenis_surat'    => "Surat Cuti Akademik",
             'semester'       => $request->semester,
             'tahun_akademik' => "{$request->tahun_akademik1}/{$request->tahun_akademik2}",
             'tanggal'        => $request->tanggal,
-            'ttd'            => $request->file('ttd')->store('tanda_tangan', 'public'),
+            'ttd_mahasiswa'  => $request->file('ttd_mahasiswa')->store('tanda_tangan', 'public'),
             'alasan'         => $request->alasan,
             'nama_orangtua'  => $request->nama_orangtua,
             'ttd_orangtua'   => $request->file('ttd_orangtua')->store('tanda_tangan', 'public'),
@@ -69,6 +69,7 @@ class SuratCutiController extends Controller
 
         $payload = [
             "id"               => $surat->id,
+            "jenis"            => $surat->jenis_surat,
             "nama"             => $surat->nama,
             "npm"              => $surat->npm,
             "prodi"            => $surat->program_studi,

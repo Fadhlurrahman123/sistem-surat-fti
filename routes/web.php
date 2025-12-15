@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\SuratAktifController;
 use App\Http\Controllers\SuratCutiController;
+use App\Http\Controllers\SuratPersetujuanAktifController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +32,14 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/ajukan-surat/cuti', [SuratCutiController::class, 'store'])
         ->name('surat.cuti.store');
+
+    // ---- SURAT PERSETUJUAN AKTIF ----
+    Route::get('/ajukan-surat/persetujuan-aktif', [SuratPersetujuanAktifController::class, 'create'])
+    ->name('surat.persetujuan-aktif.create');
+
+    Route::post('/ajukan-surat/persetujuan-aktif', [SuratPersetujuanAktifController::class, 'store'])
+        ->name('surat.persetujuan-aktif.store');
+
 
     // GENERATE SURAT (opsional)
     Route::post('/generate-surat', [SuratController::class, 'generateSuratAppsScript'])

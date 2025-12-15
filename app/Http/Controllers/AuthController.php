@@ -28,9 +28,9 @@ class AuthController extends Controller
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
             return redirect('/'); // redirect ke dashboard/home
-        }else{
+        } else {
             // Jika gagal
-        return back()->withErrors(['username' => 'Username atau password salah']);
+            return back()->withErrors(['username' => 'Username atau password salah']);
         }
 
         // LDAP configuration
@@ -133,70 +133,8 @@ class AuthController extends Controller
                         'role' => $userDetails['role'],
                     ]
                 );
-
-                if ($user->role === 'D') {
-                    $activeYear = AcademicYear::where('status', 'AKTIF')->first();
-                    if ($activeYear) {
-                        // Create or update teacher record for the active academic year
-                        Teacher::firstOrCreate(
-                            [
-                                'user_id' => $user->id,
-                                'academic_year_id' => $activeYear->id,
-                            ],
-                            [
-                                'status' => 'dosen',
-                            ]
-                        );
-                    } else {
-                        // Create or update teacher record without an academic year
-                        Teacher::firstOrCreate(
-                            [
-                                'user_id' => $user->id,
-                                'academic_year_id' => null,
-                            ],
-                            [
-                                'status' => 'dosen',
-                            ]
-                        );
-                    }
-                }
-
                 // Log the user in
                 Auth::login($user);
-
-                if (
-                    empty($user->telephonenumber) ||
-                    empty($user->email) ||
-                    empty($user->gender)
-                ) {
-                    switch ($user->role) {
-                        case 'M':
-                            return redirect()->route('student.profile.page')->with(['error' => 'Lengkapi Profil', 'message' => 'Mohon lengkapi data profil.']);
-                        case 'D':
-                            return redirect()->route('teacher.profile.page')->with(['error' => 'Lengkapi Profil', 'message' => 'Mohon lengkapi data profil.']);
-                        default:
-                            abort(403, 'Unauthorized role.');
-                    }
-                } else {
-                    $registered = Student::where('user_id', $user->id)->first();
-                    switch ($user->role) {
-                        case 'M':
-                            if ($activeYear) {
-                                if ($registered) return redirect()->route('student.dashboard.page');
-                                return redirect()->route('student.registration.page');
-                            } else {
-                                return redirect()->route('student.profile.page');
-                            }
-                        case 'D':
-                            if ($activeYear) {
-                                return redirect()->route('teacher.dashboard.page');
-                            } else {
-                                return redirect()->route('teacher.profile.page');
-                            }
-                        default:
-                            abort(403, 'Unauthorized role.');
-                    }
-                }
             } else {
                 ldap_close($ds);
                 return redirect()->back()->withErrors(['message' => 'Invalid credentials']);
@@ -205,8 +143,6 @@ class AuthController extends Controller
             ldap_close($ds);
             return redirect()->back()->withErrors(['message' => 'User not found']);
         }
-
-        
     }
 
     public function logout()

@@ -9,20 +9,25 @@ return new class extends Migration {
     {
         Schema::create('surat_pengajuan', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('nama');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->string('nama')->nullable();
             $table->string('npm')->nullable();
             $table->string('program_studi')->nullable();
             $table->string('jenis_surat')->nullable();
             $table->string('semester')->nullable();
             $table->string('tahun_akademik')->nullable();
             $table->date('tanggal')->nullable();
-            $table->string('ttd')->nullable(); // path tanda tangan jika diupload
+            $table->string('alasan')->nullable();
+            $table->string('nama_orangtua')->nullable();
+            $table->string('nama_kaprodi')->nullable();
+            $table->string('ttd_mahasiswa')->nullable(); // path tanda tangan jika diupload
+            $table->string('ttd_orangtua')->nullable(); // path tanda tangan jika diupload
+            $table->string('ttd_kaprodi')->nullable(); // path tanda tangan jika diupload
             $table->string('file_pdf')->nullable(); // URL atau nama file
+            $table->date('tanggal_pengajuan')->nullable();
+            $table->string('nominal_pembayaran')->nullable();
             $table->string('status')->default('Menunggu');
             $table->timestamps();
-
-            $table->index('user_id');
         });
     }
 

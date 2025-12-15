@@ -13,17 +13,22 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('role', ['mahasiswa','admin','dosen','kaprodi','dekan']);
-            $table->foreignId('prodi_id')->nullable()->constrained('prodi')->onDelete('set null');
+            $table->string('username')->nullable();
+            $table->string('displayname')->nullable();
+            $table->string('email')->nullable();
+            $table->string('emailyarsi')->unique();
+            $table->string('password')->nullable();
+            $table->string('telephonenumber')->nullable();
+            $table->string('serial_number')->nullable();
+            $table->string('study_program')->nullable();
+            $table->string('faculty')->nullable();
+            $table->enum('role', ['M','D']); //mahasiswa dan dosen
             $table->timestamp('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

@@ -42,10 +42,10 @@
       
 
       <label class="block mb-2">Nama Mahasiswa</label>
-      <input type="text" name="nama" value="{{ Auth::user()->name }}" readonly class="w-full p-2 border rounded mb-3 bg-gray-100">
+      <input type="text" name="nama" value="{{ Auth::user()->username }}" readonly class="w-full p-2 border rounded mb-3 bg-gray-100">
 
       <label class="block mb-2">NPM Mahasiswa</label>
-      <input type="text" name="npm" value="{{ Auth::user()->npm }}" readonly class="w-full p-2 border rounded mb-3 bg-gray-100">
+      <input type="text" name="npm" value="{{ Auth::user()->serial_number }}" readonly class="w-full p-2 border rounded mb-3 bg-gray-100">
 
       <input type="hidden" name="jenis_surat" value="{{ $jenisFull }}">
 
