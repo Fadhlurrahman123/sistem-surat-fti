@@ -135,6 +135,7 @@ class AuthController extends Controller
                 );
                 // Log the user in
                 Auth::login($user);
+                return redirect('/'); // redirect ke dashboard/home
             } else {
                 ldap_close($ds);
                 return redirect()->back()->withErrors(['message' => 'Invalid credentials']);

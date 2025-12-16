@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('tujuan')->nullable();
             $table->string('semester')->nullable();
             $table->json('data_diri')->nullable();
-            $table->enum('status', ['diproses','disetujui','ditolak'])->default('diproses');
+            $table->enum('status', ['diproses', 'disetujui', 'ditolak'])->default('diproses');
             $table->json('lampiran')->nullable();
             $table->text('tanda_tangan')->nullable();
             $table->timestamps();

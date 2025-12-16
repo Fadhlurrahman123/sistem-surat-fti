@@ -15,9 +15,9 @@ Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // ---- SURAT AKTIF ----
     Route::get('/ajukan-surat/aktif', [SuratAktifController::class, 'create'])
@@ -36,14 +36,14 @@ Route::middleware('auth')->group(function () {
 
     // ---- SURAT PERSETUJUAN AKTIF ----
     Route::get('/ajukan-surat/persetujuan-aktif', [SuratPersetujuanAktifController::class, 'create'])
-    ->name('surat.persetujuan-aktif.create');
+        ->name('surat.persetujuan-aktif.create');
 
     Route::post('/ajukan-surat/persetujuan-aktif', [SuratPersetujuanAktifController::class, 'store'])
         ->name('surat.persetujuan-aktif.store');
 
     // ---- SURAT keterangan AKTIF ----
     Route::get('/ajukan-surat/keterangan-aktif', [SuratKeteranganAktifController::class, 'create'])
-    ->name('surat.keterangan-aktif.create');
+        ->name('surat.keterangan-aktif.create');
 
     Route::post('/ajukan-surat/keterangan-aktif', [SuratKeteranganAktifController::class, 'store'])
         ->name('surat.keterangan-aktif.store');

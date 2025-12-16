@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Models\SuratPengajuan;
+use App\Models\User;
+use Carbon\Carbon;
 
 class SuratPersetujuanAktifController extends Controller
 {
@@ -25,40 +27,32 @@ class SuratPersetujuanAktifController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-        'jenis_surat'     => 'required|string',
-        'tanggal_pengajuan'  => 'required|date',
-        'nominal_pembayaran' => 'required|string',
-        'tanggal'            => 'required|date',
-        'semester'           => 'required|string',
-        'tahun_akademik1'    => 'required|numeric',
-        'tahun_akademik2'    => 'required|numeric',
-        'ttd_kaprodi'        => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        try {
+            $validated = $request->validate([
+                'nama' => 'required|string',
+                'npm' => 'required|string',
+                'nama_orangtua'   => 'required|string',
+                'nama_kaprodi'   => 'required|string',
+                'tanggal'         => 'required|date',
+                'tanggal_pengajuan'         => 'required|date',
+                'nominal_pembayaran' => 'required|string',
+            ]);
 
+            $surat = SuratPengajuan::create([
+                'user_id' => Auth::id(),
+                'nama'           => $validated['nama'],
+                'npm'            => $validated['npm'],
+                'jenis_surat'    => "Surat Persetujuan Aktif",
+                'nama_orangtua'  => $validated['nama_orangtua'],
+                'nama_kaprodi'   => $validated['nama_kaprodi'],
+                'tanggal'        => $validated['tanggal'],
+                'tanggal_pengajuan'        => $validated['tanggal_pengajuan'],
+                'nominal_pembayaran' => $validated['nominal_pembayaran'],
+            ]);
+        } catch (\Exception $e) {
+            return dd($e->getMessage());
+        }
 
-        // SIMPAN TTD KAPRODI
-        $ttdPath = $request->file('ttd_kaprodi')
-            ->store('tanda_tangan', 'public');
-
-        // SIMPAN KE DATABASE
-        $surat = SuratPengajuan::create([
-            'user_id'              => Auth::id(),
-            'nama'                 => Auth::user()->username,
-            'npm'                  => Auth::user()->serial_number,
-            'program_studi'        => Auth::user()->study_program,
-            'jenis_surat'          => 'Surat Persetujuan Aktif Akademik',
-            'tanggal'              => $request->tanggal,
-            'tanggal_pengajuan'    => $request->tanggal_pengajuan,
-            'nominal_pembayaran'   => $request->nominal_pembayaran,
-            'ttd_kaprodi'          => $request->hasFile('ttd_kaprodi')
-                                    ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
-                                    : null,
-            'nama_kaprodi'         => $request->nama_kaprodi,
-            'status'               => 'Menunggu',
-        ]);
-
-        // KIRIM KE APPS SCRIPT
         $this->sendToAppScriptPersetujuanAktif($surat);
 
         return redirect()->route('surat.preview', $surat->id);
