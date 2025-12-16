@@ -46,8 +46,8 @@
             </h3>
             <form action="" class="flex items-center gap-2">
                 <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-orange-200">
-                <a 
-                href="{{ route('surat.log') }}" 
+                <a
+                href="{{ route('surat.log') }}"
                 class="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-300 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12h6m-3-3v6M3 6h12M3 12h9m-9 6h12" />
@@ -75,6 +75,7 @@
                         'Surat Keterangan Aktif' => route('surat.aktif.create'),
                         'Surat Cuti Akademik' => route('surat.cuti.create'),
                         'Surat Persetujuan Aktif Akademik' => route('surat.persetujuan-aktif.create'),
+                        'Surat Keterangan Aktif' => route('surat.keterangan-aktif.create'),
                         default => route('surat.aktif.create'),
                     };
 

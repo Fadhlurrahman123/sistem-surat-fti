@@ -29,7 +29,10 @@ class SuratPengajuan extends Model
         'file_pdf',
         'tanggal_pengajuan',
         'nominal_pembayaran',
-        'status'
+        'nomor_urut',
+        'no_surat',
+        'status',
+
     ];
 
     public function user()

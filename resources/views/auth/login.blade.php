@@ -13,7 +13,7 @@
             align-items: center;
             justify-content: center;
             font-family: "Poppins", sans-serif;
-            background: linear-gradient(135deg, #ff7b00, #ff5e62);
+            background: linear-gradient(135deg, #ff5e62, #ff7b00, #ff7b00);
         }
 
         .login-card {

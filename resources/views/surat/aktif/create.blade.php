@@ -6,7 +6,7 @@
     <title>Ajukan Surat</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
-    
+
 
 <body>
 
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <span class="font-medium">{{ Auth::user()->name ?? 'User' }}</span>
+                <span class="font-medium">{{ Auth::user()->username ?? 'User' }}</span>
                 <div class="bg-white text-gray-600 rounded-full p-2 shadow">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.879 6.196a9 9 0 01-13.758 11.608z" />
@@ -39,7 +39,7 @@
 
 
       @csrf
-      
+
 
       <label class="block mb-2">Nama Mahasiswa</label>
       <input type="text" name="nama" value="{{ Auth::user()->username }}" readonly class="w-full p-2 border rounded mb-3 bg-gray-100">

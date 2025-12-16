@@ -26,6 +26,8 @@ return new class extends Migration {
             $table->string('file_pdf')->nullable(); // URL atau nama file
             $table->date('tanggal_pengajuan')->nullable();
             $table->string('nominal_pembayaran')->nullable();
+            $table->integer('nomor_urut')->nullable();
+            $table->string('no_surat')->nullable();
             $table->string('status')->default('Menunggu');
             $table->timestamps();
         });

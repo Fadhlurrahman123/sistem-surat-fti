@@ -21,6 +21,8 @@ class SuratController extends Controller
             $jenisFull = "Surat Cuti Akademik";
         } elseif ($jenis == 'persetujuan-aktif') {
             $jenisFull = "Surat Persetujuan Aktif Akademik";
+        } elseif ($jenis == 'keterangan-aktif') {
+            $jenisFull = "Surat Keterangan Aktif";
         } else {
             abort(404);
         }

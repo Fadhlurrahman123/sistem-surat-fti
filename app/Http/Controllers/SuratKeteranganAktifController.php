@@ -3,8 +3,130 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use App\Models\SuratPengajuan;
 
 class SuratKeteranganAktifController extends Controller
 {
-    //
+    /**
+     * FORM CREATE SURAT KETERANGAN AKTIF
+     */
+    public function create()
+    {
+        return view('surat.keterangan-aktif.create', [
+            'jenis' => 'keterangan-aktif',
+            'jenisFull' => 'Surat Keterangan Aktif'
+        ]);
+    }
+
+    /**
+     * SIMPAN & GENERATE SURAT
+     */
+    public function store(Request $request)
+{
+    $request->validate([
+        'tanggal'      => 'required|date',
+        'semester'     => 'required|string',
+        'tahun_akademik1' => 'required|numeric',
+        'tahun_akademik2' => 'required|numeric',
+        'ttd_mahasiswa'   => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        'ttd_kaprodi'     => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        'nama_kaprodi'    => 'required|string',
+    ]);
+
+    // Tentukan kode prodi
+    $prodiFull = Auth::user()->program_studi;
+    if (str_contains(strtolower($prodiFull), 'informatika')) {
+        $kodeProdi = 'TI';
+    } elseif (str_contains(strtolower($prodiFull), 'perpustakaan') || str_contains(strtolower($prodiFull), 'sains informasi')) {
+        $kodeProdi = 'PdSi';
+    } else {
+        $kodeProdi = 'XX';
+    }
+
+    // Ambil nomor terakhir per prodi
+    $lastSurat = SuratPengajuan::where('program_studi', $prodiFull)
+                ->where('jenis_surat', 'Surat Keterangan Aktif')
+                ->orderBy('id', 'desc')
+                ->first();
+    $nomorUrut = $lastSurat ? $lastSurat->nomor_urut + 1 : 1;
+
+    // Format nomor surat
+    $bulanRomawi = $this->bulanRomawi(now()->month);
+    $tahun = now()->year;
+    $no_surat = sprintf("No.%04d/%s/SKet PP.30.02/%s/%d", $nomorUrut, $kodeProdi, $bulanRomawi, $tahun);
+
+    // SIMPAN TTD
+    $ttdMahasiswaPath = $request->file('ttd_mahasiswa')->store('tanda_tangan', 'public');
+    $ttdKaprodiPath   = $request->file('ttd_kaprodi')->store('tanda_tangan', 'public');
+
+    // SIMPAN KE DATABASE
+    $surat = SuratPengajuan::create([
+        'user_id'       => Auth::id(),
+        'nama'          => Auth::user()->username,
+        'npm'           => Auth::user()->serial_number,
+        'program_studi' => Auth::user()->study_program,
+        'jenis_surat'   => 'Surat Keterangan Aktif',
+        'tanggal'       => $request->tanggal,
+        'semester'      => $request->semester,
+        'tahun_akademik1'=> $request->tahun_akademik1,
+        'tahun_akademik2'=> $request->tahun_akademik2,
+        'ttd_mahasiswa' => $ttdMahasiswaPath,
+        'ttd_kaprodi'   => $ttdKaprodiPath,
+        'nama_kaprodi'  => $request->nama_kaprodi,
+        'nomor_urut'    => $nomorUrut,
+        'no_surat'      => $no_surat,
+        'status'        => 'Menunggu',
+    ]);
+
+    // KIRIM KE APPS SCRIPT
+    $this->sendToAppScriptKeteranganAktif($surat);
+
+    return redirect()->route('surat.preview', $surat->id);
 }
+
+/**
+ * Helper bulan ke Romawi
+ */
+private function bulanRomawi($bulan)
+{
+    $romawi = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+    return $romawi[$bulan - 1];
+}
+
+    /**
+     * KIRIM DATA KE GOOGLE APPS SCRIPT
+     */
+    public function sendToAppScriptKeteranganAktif($surat)
+    {
+        $scriptUrl = "https://script.google.com/macros/s/AKfycbxivAUWPRqfB4QwxgaxK6uXjXJadaOZHjtwCi0WEl1vSpnUoW2fM6kBYEr7haJbmGD3/exec"; // ganti sesuai Apps Script
+
+        $payload = [
+            "id"             => $surat->id,
+            "nama"           => $surat->nama,
+            "npm"            => $surat->npm,
+            "prodi"          => $surat->program_studi,
+            "semester"       => $surat->semester,
+            "tahun1"         => $surat->tahun_akademik1,
+            "tahun2"         => $surat->tahun_akademik2,
+            "tanggal"        => $surat->tanggal,
+            "ttd_mahasiswa"  => asset('storage/' . $surat->ttd_mahasiswa),
+            "ttd_kaprodi"    => asset('storage/' . $surat->ttd_kaprodi),
+            "nama_kaprodi"   => $surat->nama_kaprodi,
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->post($scriptUrl, $payload);
+
+        if ($response->successful()) {
+            $result = $response->json();
+            if (!empty($result['pdf_url'])) {
+                $surat->update(['file_pdf' => $result['pdf_url']]);
+            }
+        }
+    }
+}
+
+

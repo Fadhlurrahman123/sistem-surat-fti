@@ -6,6 +6,7 @@ use App\Http\Controllers\SuratController;
 use App\Http\Controllers\SuratAktifController;
 use App\Http\Controllers\SuratCutiController;
 use App\Http\Controllers\SuratPersetujuanAktifController;
+use App\Http\Controllers\SuratKeteranganAktifController;
 
 
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/ajukan-surat/persetujuan-aktif', [SuratPersetujuanAktifController::class, 'store'])
         ->name('surat.persetujuan-aktif.store');
+
+    // ---- SURAT keterangan AKTIF ----
+    Route::get('/ajukan-surat/keterangan-aktif', [SuratKeteranganAktifController::class, 'create'])
+    ->name('surat.keterangan-aktif.create');
+
+    Route::post('/ajukan-surat/keterangan-aktif', [SuratKeteranganAktifController::class, 'store'])
+        ->name('surat.keterangan-aktif.store');
 
 
     // GENERATE SURAT (opsional)

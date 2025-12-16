@@ -26,15 +26,13 @@ class SuratPersetujuanAktifController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+        'jenis_surat'     => 'required|string',
         'tanggal_pengajuan'  => 'required|date',
         'nominal_pembayaran' => 'required|string',
         'tanggal'            => 'required|date',
-        'nama_orangtua'      => 'required|string',
         'semester'           => 'required|string',
         'tahun_akademik1'    => 'required|numeric',
         'tahun_akademik2'    => 'required|numeric',
-        'ttd'                => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        'ttd_orangtua'       => 'required|image|mimes:jpg,jpeg,png|max:2048',
         'ttd_kaprodi'        => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -46,14 +44,16 @@ class SuratPersetujuanAktifController extends Controller
         // SIMPAN KE DATABASE
         $surat = SuratPengajuan::create([
             'user_id'              => Auth::id(),
-            'nama'                 => Auth::user()->name,
-            'npm'                  => Auth::user()->npm,
-            'program_studi'        => Auth::user()->program_studi,
+            'nama'                 => Auth::user()->username,
+            'npm'                  => Auth::user()->serial_number,
+            'program_studi'        => Auth::user()->study_program,
             'jenis_surat'          => 'Surat Persetujuan Aktif Akademik',
             'tanggal'              => $request->tanggal,
             'tanggal_pengajuan'    => $request->tanggal_pengajuan,
             'nominal_pembayaran'   => $request->nominal_pembayaran,
-            'ttd_kaprodi'          => $ttdPath,
+            'ttd_kaprodi'          => $request->hasFile('ttd_kaprodi')
+                                    ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
+                                    : null,
             'nama_kaprodi'         => $request->nama_kaprodi,
             'status'               => 'Menunggu',
         ]);
@@ -69,7 +69,7 @@ class SuratPersetujuanAktifController extends Controller
      */
     public function sendToAppScriptPersetujuanAktif($surat)
     {
-        $scriptUrl = "https://script.google.com/macros/s/AKfycbz7e76bQckzxVUaHxRA5dFz9JB8eEEZVfz8GdtxdvNp3b8IYCOfMc_UQmc-dezx_fl1YQ/exec"; 
+        $scriptUrl = "https://script.google.com/macros/s/AKfycbz7e76bQckzxVUaHxRA5dFz9JB8eEEZVfz8GdtxdvNp3b8IYCOfMc_UQmc-dezx_fl1YQ/exec";
 
         $payload = [
             "id"                 => $surat->id,
