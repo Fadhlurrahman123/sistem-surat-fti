@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Models\SuratPengajuan;
+use Illuminate\Support\Facades\Log;
 
 class SuratKeteranganAktifController extends Controller
 {
@@ -70,8 +71,8 @@ class SuratKeteranganAktifController extends Controller
             'tahun_akademik1' => $request->tahun_akademik1,
             'tahun_akademik2' => $request->tahun_akademik2,
             'ttd_kaprodi'    => $request->hasFile('ttd_kaprodi')
-                                    ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
-                                    : null,
+                ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
+                : null,
             'nama_kaprodi'  => $request->nama_kaprodi,
             'nomor_urut'    => $nomorUrut,
             'no_surat'      => $no_surat,

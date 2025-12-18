@@ -61,7 +61,7 @@
                     class="cursor-pointer hover:bg-orange-100 transition">
 
                     <td class="px-3 py-2">{{ $i + 1 }}</td>
-                    <td class="px-3 py-2">{{ $s->id }}</td>
+                    <td class="px-3 py-2">{{ $s->no_surat }}</td>
                     <td class="px-3 py-2">{{ $s->jenis_surat }}</td>
                     <td class="px-3 py-2">{{ $s->npm }}</td>
                     <td class="px-3 py-2">{{ $s->nama }}</td>

@@ -28,9 +28,6 @@ class AuthController extends Controller
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
             return redirect('/'); // redirect ke dashboard/home
-        } else {
-            // Jika gagal
-            return back()->withErrors(['username' => 'Username atau password salah']);
         }
 
         // LDAP configuration

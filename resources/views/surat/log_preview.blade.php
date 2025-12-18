@@ -42,7 +42,7 @@
         <table class="w-full text-left mb-6 border border-gray-300 rounded overflow-hidden">
             <tr>
                 <th class="p-2 bg-gray-200 w-1/3 font-medium">No Surat</th>
-                <td class="p-2">{{ $data->id }}</td>
+                <td class="p-2">{{ $data->no_surat }}</td>
             </tr>
 
             <tr>
