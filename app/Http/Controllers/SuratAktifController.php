@@ -15,7 +15,7 @@ class SuratAktifController extends Controller
     {
         return view('surat.aktif.create', [
             'jenis' => 'aktif',
-            'jenisFull' => 'Surat Keterangan Aktif'
+            'jenisFull' => 'Surat Permohonan Aktif'
         ]);
     }
 
@@ -38,7 +38,7 @@ class SuratAktifController extends Controller
             'nama'           => $user->username,
             'npm'            => $user->serial_number,
             'program_studi'  => $user->study_program,
-            'jenis_surat'    => "Surat Keterangan Aktif",
+            'jenis_surat'    => "Surat Permohonan Aktif",
             'semester'       => $request->semester,
             'tahun_akademik' => "{$request->tahun_akademik1}/{$request->tahun_akademik2}",
             'tanggal'        => $request->tanggal,

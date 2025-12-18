@@ -12,6 +12,7 @@ class SuratKeteranganAktifController extends Controller
     /**
      * FORM CREATE SURAT KETERANGAN AKTIF
      */
+
     public function create()
     {
         return view('surat.keterangan-aktif.create', [
@@ -25,18 +26,18 @@ class SuratKeteranganAktifController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'tanggal'      => 'required|date',
             'semester'     => 'required|string',
             'tahun_akademik1' => 'required|numeric',
             'tahun_akademik2' => 'required|numeric',
-            'ttd_mahasiswa'   => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'ttd_kaprodi'     => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'nama_kaprodi'    => 'required|string',
         ]);
 
         // Tentukan kode prodi
-        $prodiFull = Auth::user()->program_studi;
+        $prodiFull = Auth::user()->study_program;
         if (str_contains(strtolower($prodiFull), 'informatika')) {
             $kodeProdi = 'TI';
         } elseif (str_contains(strtolower($prodiFull), 'perpustakaan') || str_contains(strtolower($prodiFull), 'sains informasi')) {
@@ -57,10 +58,6 @@ class SuratKeteranganAktifController extends Controller
         $tahun = now()->year;
         $no_surat = sprintf("No.%04d/%s/SKet PP.30.02/%s/%d", $nomorUrut, $kodeProdi, $bulanRomawi, $tahun);
 
-        // SIMPAN TTD
-        $ttdMahasiswaPath = $request->file('ttd_mahasiswa')->store('tanda_tangan', 'public');
-        $ttdKaprodiPath   = $request->file('ttd_kaprodi')->store('tanda_tangan', 'public');
-
         // SIMPAN KE DATABASE
         $surat = SuratPengajuan::create([
             'user_id'       => Auth::id(),
@@ -72,8 +69,9 @@ class SuratKeteranganAktifController extends Controller
             'semester'      => $request->semester,
             'tahun_akademik1' => $request->tahun_akademik1,
             'tahun_akademik2' => $request->tahun_akademik2,
-            'ttd_mahasiswa' => $ttdMahasiswaPath,
-            'ttd_kaprodi'   => $ttdKaprodiPath,
+            'ttd_kaprodi'    => $request->hasFile('ttd_kaprodi')
+                                    ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
+                                    : null,
             'nama_kaprodi'  => $request->nama_kaprodi,
             'nomor_urut'    => $nomorUrut,
             'no_surat'      => $no_surat,
@@ -100,18 +98,19 @@ class SuratKeteranganAktifController extends Controller
      */
     public function sendToAppScriptKeteranganAktif($surat)
     {
-        $scriptUrl = "https://script.google.com/macros/s/AKfycbxivAUWPRqfB4QwxgaxK6uXjXJadaOZHjtwCi0WEl1vSpnUoW2fM6kBYEr7haJbmGD3/exec"; // ganti sesuai Apps Script
+        $scriptUrl = "https://script.google.com/macros/s/AKfycbyldVFkmqRTXYR1864ZiKpO-92U0G0WjdU8hVrOEtWpuHm_tMlXtQuXTF2Iow5ofMrO/exec"; // ganti sesuai Apps Script
 
         $payload = [
             "id"             => $surat->id,
+            "no_surat"       => $surat->no_surat,
+            "jenis"          => $surat->jenis_surat,
             "nama"           => $surat->nama,
             "npm"            => $surat->npm,
             "prodi"          => $surat->program_studi,
             "semester"       => $surat->semester,
-            "tahun1"         => $surat->tahun_akademik1,
-            "tahun2"         => $surat->tahun_akademik2,
+            "tahun_akademik1" => $surat->tahun_akademik1,
+            "tahun_akademik2" => $surat->tahun_akademik2,
             "tanggal"        => $surat->tanggal,
-            "ttd_mahasiswa"  => asset('storage/' . $surat->ttd_mahasiswa),
             "ttd_kaprodi"    => asset('storage/' . $surat->ttd_kaprodi),
             "nama_kaprodi"   => $surat->nama_kaprodi,
         ];

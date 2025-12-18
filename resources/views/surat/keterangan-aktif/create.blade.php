@@ -60,26 +60,17 @@
 
         {{-- Semester --}}
         <label class="block mb-2">Semester</label>
-        <input type="text"
-               name="semester"
-               class="w-full p-2 border rounded mb-3"
-               placeholder="Contoh: 6"
-               required>
+            <select name="semester" class="w-full p-2 border rounded mb-3" required>
+                <option value="Ganjil">Ganjil</option>
+                <option value="Genap">Genap</option>
+            </select>
 
         {{-- Tahun Akademik --}}
         <label class="block mb-2">Tahun Akademik</label>
-        <div class="flex gap-2 mb-3">
-            <input type="number"
-                   name="tahun_akademik1"
-                   placeholder="2024"
-                   class="w-1/2 p-2 border rounded"
-                   required>
-            <input type="number"
-                   name="tahun_akademik2"
-                   placeholder="2025"
-                   class="w-1/2 p-2 border rounded"
-                   required>
-        </div>
+            <div class="flex gap-2 mb-3">
+                <input type="number" name="tahun_akademik1" placeholder="2025" class="w-1/2 p-2 border rounded" required>
+                <input type="number" name="tahun_akademik2" placeholder="2026" class="w-1/2 p-2 border rounded" required>
+            </div>
 
         {{-- Tanggal --}}
         <label class="block mb-2">Tanggal Surat</label>
@@ -95,10 +86,10 @@
                class="w-full p-2 border rounded mb-3"
                required>
 
-        {{-- TTD Mahasiswa --}}
-        <label class="block mb-2">Tanda Tangan Mahasiswa</label>
+        {{-- TTD kaprodi --}}
+        <label class="block mb-2">Tanda Tangan Kaprodi</label>
         <input type="file"
-               name="ttd_mahasiswa"
+               name="ttd_kaprodi"
                accept="image/*"
                class="w-full p-2 border rounded mb-3"
                required>

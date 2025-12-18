@@ -16,7 +16,7 @@ class SuratController extends Controller
     public function create($jenis)
     {
         if ($jenis == 'aktif') {
-            $jenisFull = "Surat Keterangan Aktif";
+            $jenisFull = "Surat Permohonan Aktif";
         } elseif ($jenis == 'cuti') {
             $jenisFull = "Surat Cuti Akademik";
         } elseif ($jenis == 'persetujuan-aktif') {
