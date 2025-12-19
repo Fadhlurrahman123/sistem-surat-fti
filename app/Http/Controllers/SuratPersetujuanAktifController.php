@@ -31,7 +31,6 @@ class SuratPersetujuanAktifController extends Controller
             $validated = $request->validate([
                 'nama' => 'required|string',
                 'npm' => 'required|string',
-                'nama_orangtua'   => 'required|string',
                 'nama_kaprodi'   => 'required|string',
                 'tanggal'         => 'required|date',
                 'tanggal_pengajuan'         => 'required|date',
@@ -43,7 +42,6 @@ class SuratPersetujuanAktifController extends Controller
                 'nama'           => $validated['nama'],
                 'npm'            => $validated['npm'],
                 'jenis_surat'    => "Surat Persetujuan Aktif",
-                'nama_orangtua'  => $validated['nama_orangtua'],
                 'nama_kaprodi'   => $validated['nama_kaprodi'],
                 'tanggal'        => $validated['tanggal'],
                 'tanggal_pengajuan'        => $validated['tanggal_pengajuan'],

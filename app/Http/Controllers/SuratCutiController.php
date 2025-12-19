@@ -22,6 +22,7 @@ class SuratCutiController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
             'jenis_surat'     => 'required|string',
             'semester'        => 'required|string',

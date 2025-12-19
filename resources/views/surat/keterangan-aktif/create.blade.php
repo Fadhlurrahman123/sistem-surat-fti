@@ -17,21 +17,22 @@
                 <img src="{{ asset('logo.jpeg') }}" alt="Logo YARSI" class="h-14 bg-white rounded p-1">
                 <div>
                     <h1 class="text-sm">Program Studi</h1>
-                    <h2 class="text-2xl font-semibold -mt-1">
-                        {{ Auth::user()->study_program ?? '-' }}
-                    </h2>
+                    <h2 class="text-2xl font-semibold -mt-1">Teknik Informatika</h2>
                 </div>
             </div>
-
             <div class="flex items-center gap-3">
-                <span class="font-medium">{{ Auth::user()->username ?? 'User' }}</span>
+                <span class="font-medium">{{ Auth::user()->dispaly_name ?? 'User' }}</span>
                 <div class="bg-white text-gray-600 rounded-full p-2 shadow">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5.121 17.804A9 9 0 1118.879 6.196a9 9 0 01-13.758 11.608z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.879 6.196a9 9 0 01-13.758 11.608z" />
                     </svg>
                 </div>
+
+                <!-- Logout button -->
+                <a href="{{ route('logout') }}"
+                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded shadow">
+                    Logout
+                </a>
             </div>
         </div>
     </header>
@@ -86,14 +87,6 @@
             <label class="block mb-2">Nama Kaprodi</label>
             <input type="text"
                 name="nama_kaprodi"
-                class="w-full p-2 border rounded mb-3"
-                required>
-
-            {{-- TTD kaprodi --}}
-            <label class="block mb-2">Tanda Tangan Kaprodi</label>
-            <input type="file"
-                name="ttd_kaprodi"
-                accept="image/*"
                 class="w-full p-2 border rounded mb-3"
                 required>
 

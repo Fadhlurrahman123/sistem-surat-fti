@@ -20,8 +20,16 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'serial_number' => '1402021045',
             'role' => 'M',
+        ],
+
+        [
+           'username' => 'TU',
+            'displayname' => 'Staff TU',
+            'password' => Hash::make('tu123'),
+            'role' => 'TU',
+
         ]);
- 
+
 
 
         $now = Carbon::now();
@@ -42,7 +50,7 @@ class UserSeeder extends Seeder
 
 
         //     [
-                
+
         //         'username' => 'dosen1',
         //         'displayname' => 'Dosen Fulan',
         //         'email' => 'dosen@gmail.com',

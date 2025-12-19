@@ -21,7 +21,7 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <span class="font-medium">{{ Auth::user()->username ?? 'User' }}</span>
+                <span class="font-medium">{{ Auth::user()->display_name ?? 'User' }}</span>
                 <div class="bg-white text-gray-600 rounded-full p-2 shadow">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">

@@ -27,7 +27,6 @@ class SuratKeteranganAktifController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'tanggal'      => 'required|date',
             'semester'     => 'required|string',
