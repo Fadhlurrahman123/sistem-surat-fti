@@ -9,6 +9,6 @@ class HomeController extends Controller
     public function index()
     {
         $jenis_surat = JenisSurat::all(); // ambil semua data dari tabel jenis_surat
-        return view('home', compact('jenis_surat')); // kirim ke view home.blade.php
+        return view('surat.daftar_surat', compact('jenis_surat')); // kirim ke view home.blade.php
     }
 }
