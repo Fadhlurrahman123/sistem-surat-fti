@@ -14,6 +14,7 @@
         {{-- Nama --}}
         <label class="block mb-2">Nama Mahasiswa</label>
         <input type="text"
+            name="nama"
             value="{{ Auth::user()->username }}"
             readonly
             class="w-full p-2 border rounded mb-3 bg-gray-100">
@@ -21,6 +22,7 @@
         {{-- NPM --}}
         <label class="block mb-2">NPM</label>
         <input type="text"
+            name="npm"
             value="{{ Auth::user()->serial_number }}"
             readonly
             class="w-full p-2 border rounded mb-3 bg-gray-100">

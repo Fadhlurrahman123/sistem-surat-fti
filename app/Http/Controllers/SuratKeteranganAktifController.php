@@ -32,7 +32,6 @@ class SuratKeteranganAktifController extends Controller
             'semester'     => 'required|string',
             'tahun_akademik1' => 'required|numeric',
             'tahun_akademik2' => 'required|numeric',
-            'ttd_kaprodi'     => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'nama_kaprodi'    => 'required|string',
         ]);
 
@@ -58,7 +57,7 @@ class SuratKeteranganAktifController extends Controller
         $tahun = now()->year;
         $no_surat = sprintf("No.%04d/%s/SKet PP.30.02/%s/%d", $nomorUrut, $kodeProdi, $bulanRomawi, $tahun);
 
-        // SIMPAN KE DATABASE
+        /// SIMPAN KE DATABASE
         $surat = SuratPengajuan::create([
             'user_id'       => Auth::id(),
             'nama'          => Auth::user()->username,
@@ -69,12 +68,14 @@ class SuratKeteranganAktifController extends Controller
             'semester'      => $request->semester,
             'tahun_akademik1' => $request->tahun_akademik1,
             'tahun_akademik2' => $request->tahun_akademik2,
-            'ttd_kaprodi'    => $request->hasFile('ttd_kaprodi')
+            'ttd_kaprodi'   => $request->hasFile('ttd_kaprodi')
                 ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
                 : null,
             'nama_kaprodi'  => $request->nama_kaprodi,
-            'nomor_urut'    => $nomorUrut,
-            'no_surat'      => $no_surat,
+
+            // PENTING
+            'nomor_urut'    => null,
+            'no_surat'      => null,
             'status'        => 'Menunggu',
         ]);
 

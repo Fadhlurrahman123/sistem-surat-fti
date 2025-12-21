@@ -13,22 +13,26 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
-        User::create([
-            'emailyarsi' => 'mahasiswa.account1@yarsi.co.id',
-            'username' => 'mahasiswa1',
-            'displayname' => 'mahasiswa account1',
-            'password' => Hash::make('password'),
-            'serial_number' => '1402021045',
-            'role' => 'M',
-        ],
-
+        User::updateOrCreate(
+        ['emailyarsi' => 'mahasiswa.account1@yarsi.co.id'],
         [
-           'username' => 'TU',
-            'displayname' => 'Staff TU',
-            'password' => Hash::make('tu123'),
-            'role' => 'TU',
+            'username'      => 'mahasiswa1',
+            'displayname'   => 'mahasiswa account1',
+            'password'      => Hash::make('password'),
+            'serial_number' => '1402021045',
+            'role'          => 'M',
+        ]
+    );
 
-        ]);
+    User::updateOrCreate(
+        ['emailyarsi' => 'stafftu@yarsi.co.id'],
+        [
+            'username'    => 'stafftu',
+            'displayname' => 'Staff TU',
+            'password'    => Hash::make('tu123'),
+            'role'        => 'TU',
+        ]
+    );
 
 
 

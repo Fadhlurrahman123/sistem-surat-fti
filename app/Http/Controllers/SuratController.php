@@ -38,7 +38,7 @@ class SuratController extends Controller
             'jenis_surat' => $jenis,
             'nama' => $request->nama,
             'npm' => $request->npm,
-            'prodi' => $request->prodi ?? null,
+            'program_studi' => $request->prodi ?? null,
             'semester' => $request->semester ?? null,
             'tahun_akademik1' => $request->tahun_akademik1 ?? null,
             'tahun_akademik2' => $request->tahun_akademik2 ?? null,
@@ -52,18 +52,20 @@ class SuratController extends Controller
        ============================ */
     public function preview($id)
     {
-        $data = SuratPengajuan::findOrFail($id);
+        $surat = SuratPengajuan::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
 
-        return view('surat.log_preview', [
-            'data' => $data,
-        ]);
+        return view('surat.log_preview', compact('surat'));
     }
 
     public function logSurat()
     {
         return view('surat.log', [
-            'surat' => SuratPengajuan::where('user_id', Auth::id())->get()
-        ]);
+        'surat' => SuratPengajuan::where('user_id', Auth::id())
+            ->latest()
+            ->get()
+    ]);
     }
 
 

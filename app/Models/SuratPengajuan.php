@@ -32,6 +32,7 @@ class SuratPengajuan extends Model
         'nomor_urut',
         'no_surat',
         'status',
+        'catatan_tu',
 
     ];
 

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
-    <title>Log Surat</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Form Surat</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-50 min-h-screen font-sans">
 
     {{-- Header --}}
     <header class="bg-gradient-to-r from-orange-600 to-orange-400 text-white shadow">
@@ -62,7 +64,7 @@
 
             <tbody>
                 @foreach ($surat as $i => $s)
-                <tr onclick="window.location='{{ route('surat.preview', $s->id) }}'"
+                <tr onclick="window.location='{{ route('staff-tu.preview', $s->id) }}'"
                     class="cursor-pointer hover:bg-orange-100 transition">
 
                     <td class="px-3 py-2">{{ $i + 1 }}</td>
@@ -96,15 +98,8 @@
 
         </table>
 
-        {{-- Tombol kembali --}}
-        <div class="mt-6">
-            <a href="{{ route('home') }}"
-                class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-700 transition">
-                Home
-            </a>
-        </div>
-
     </div>
+
 
 </body>
 

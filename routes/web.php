@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StaffTuDashboardController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\SuratAktifController;
 use App\Http\Controllers\SuratCutiController;
@@ -62,6 +63,30 @@ Route::middleware('auth')->group(function () {
         ->name('surat.delete');
 
     // DOWNLOAD
+    Route::get('/surat/download/{id}', [SuratController::class, 'downloadPdf'])
+        ->name('surat.download');
+});
+
+Route::middleware(['auth', 'role:TU'])->group(function () {
+
+    Route::get('/dashboard-tu', [StaffTuDashboardController::class, 'index'])
+        ->name('dashboard.tu');
+
+    Route::get('/dashboard-tu/surat/{id}', [StaffTuDashboardController::class, 'preview'])
+        ->name('staff-tu.preview');
+
+    Route::post('/dashboard-tu/surat/{id}/approve',
+            [StaffTuDashboardController::class, 'approve']
+        )->name('staff-tu.approve');
+
+        Route::post('/dashboard-tu/surat/{id}/reject',
+            [StaffTuDashboardController::class, 'reject']
+        )->name('staff-tu.reject');
+
+
+    Route::delete('/log-surat/{id}/delete', [SuratController::class, 'delete'])
+        ->name('surat.delete');
+
     Route::get('/surat/download/{id}', [SuratController::class, 'downloadPdf'])
         ->name('surat.download');
 });

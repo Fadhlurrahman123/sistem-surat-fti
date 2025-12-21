@@ -22,6 +22,8 @@
         <label class="block mb-2">Nama Kaprodi</label>
         <input type="text" name="nama_kaprodi" required class="w-full p-2 border rounded mb-3 ">
 
+        <input type="hidden" name="jenis_surat" value="{{ $jenisFull }}">
+
         <label class="block mb-2">Semester</label>
         <select name="semester" class="w-full p-2 border rounded mb-3" required>
             <option value="Ganjil">Ganjil</option>
