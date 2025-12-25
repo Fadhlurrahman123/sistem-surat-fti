@@ -17,30 +17,25 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-        'username' => 'required|string',
-        'password' => 'required|string',
+            'username' => 'required|string',
+            'password' => 'required|string',
         ]);
 
         // Cari user berdasarkan username
-        $user = User::where('username', $request->username)->first();
+        $user = User::where('username', $request?->username)->first();
 
-        // Cek user & password
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return back()->withErrors([
-                'username' => 'Username atau password salah'
-            ]);
+        if ($user && Hash::check($request?->password, $user?->password)) {
+            if ($user->role === 'TU') {
+                Auth::login($user);
+                $request->session()->regenerate();
+                return redirect()->route('dashboard.tu'); // dashboard TU
+            }
+            // Login
+            Auth::login($user);
+            $request->session()->regenerate();
+            return redirect()->route('home'); // mahasiswa
         }
 
-        // Login
-        Auth::login($user);
-        $request->session()->regenerate();
-
-        // 🔥 REDIRECT BERDASARKAN ROLE
-        if ($user->role === 'TU') {
-            return redirect()->route('dashboard.tu'); // dashboard TU
-        }
-
-        return redirect()->route('home'); // mahasiswa
 
         // LDAP configuration
         $ldap_host = 'pdc.yarsi.ac.id';

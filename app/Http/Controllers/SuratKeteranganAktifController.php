@@ -99,7 +99,7 @@ class SuratKeteranganAktifController extends Controller
      */
     public function sendToAppScriptKeteranganAktif($surat)
     {
-        $scriptUrl = "https://script.google.com/macros/s/AKfycbyldVFkmqRTXYR1864ZiKpO-92U0G0WjdU8hVrOEtWpuHm_tMlXtQuXTF2Iow5ofMrO/exec"; // ganti sesuai Apps Script
+        $scriptUrl = "https://script.google.com/macros/s/AKfycbyldVFkmqRTXYR1864ZiKpO-92U0G0WjdU8hVrOEtWpuHm_tMlXtQuXTF2Iow5ofMrO/exec";
 
         $payload = [
             "id"             => $surat->id,

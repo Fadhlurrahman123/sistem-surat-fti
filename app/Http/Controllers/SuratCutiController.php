@@ -12,12 +12,12 @@ class SuratCutiController extends Controller
 {
 
     public function create()
-{
-    return view('surat.cuti.create', [
-        'jenis' => 'cuti',
-        'jenisFull' => 'Surat Cuti Akademik'
-    ]);
-}
+    {
+        return view('surat.cuti.create', [
+            'jenis' => 'cuti',
+            'jenisFull' => 'Surat Cuti Akademik'
+        ]);
+    }
 
 
     public function store(Request $request)
@@ -50,8 +50,8 @@ class SuratCutiController extends Controller
             'ttd_orangtua'   => $request->file('ttd_orangtua')->store('tanda_tangan', 'public'),
             'nama_kaprodi'   => $request->nama_kaprodi ?? null,
             'ttd_kaprodi'    => $request->hasFile('ttd_kaprodi')
-                                    ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
-                                    : null,
+                ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
+                : null,
             'status'         => 'Menunggu'
         ]);
 
@@ -61,7 +61,7 @@ class SuratCutiController extends Controller
     }
 
 
-            public function sendToAppScriptCuti($surat)
+    public function sendToAppScriptCuti($surat)
     {
         $scriptUrl = "https://script.google.com/macros/s/AKfycbxE0hg7hdZsQJt0hZdZLY-hVNhTNfWVio5AKopUEEQ17hHFKLxJT8Pg01HC8PaPAns1zw/exec";
 
@@ -130,5 +130,4 @@ class SuratCutiController extends Controller
             }
         }
     }
-
 }

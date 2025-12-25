@@ -65,9 +65,7 @@ Route::middleware('auth')->group(function () {
     // DOWNLOAD
     Route::get('/surat/download/{id}', [SuratController::class, 'downloadPdf'])
         ->name('surat.download');
-});
 
-Route::middleware(['auth', 'role:TU'])->group(function () {
 
     Route::get('/dashboard-tu', [StaffTuDashboardController::class, 'index'])
         ->name('dashboard.tu');
@@ -75,13 +73,15 @@ Route::middleware(['auth', 'role:TU'])->group(function () {
     Route::get('/dashboard-tu/surat/{id}', [StaffTuDashboardController::class, 'preview'])
         ->name('staff-tu.preview');
 
-    Route::post('/dashboard-tu/surat/{id}/approve',
-            [StaffTuDashboardController::class, 'approve']
-        )->name('staff-tu.approve');
+    Route::post(
+        '/dashboard-tu/surat/{id}/approve',
+        [StaffTuDashboardController::class, 'approve']
+    )->name('staff-tu.approve');
 
-        Route::post('/dashboard-tu/surat/{id}/reject',
-            [StaffTuDashboardController::class, 'reject']
-        )->name('staff-tu.reject');
+    Route::post(
+        '/dashboard-tu/surat/{id}/reject',
+        [StaffTuDashboardController::class, 'reject']
+    )->name('staff-tu.reject');
 
 
     Route::delete('/log-surat/{id}/delete', [SuratController::class, 'delete'])
@@ -90,3 +90,8 @@ Route::middleware(['auth', 'role:TU'])->group(function () {
     Route::get('/surat/download/{id}', [SuratController::class, 'downloadPdf'])
         ->name('surat.download');
 });
+
+// Route::middleware(['auth', 'role:TU'])->group(function () {
+
+    
+// });

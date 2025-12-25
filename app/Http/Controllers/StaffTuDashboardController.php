@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\SuratPengajuan;
 use App\Traits\SuratHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StaffTuDashboardController extends Controller
 {
@@ -62,13 +63,16 @@ class StaffTuDashboardController extends Controller
 
         $nomorUrut = $last ? $last->nomor_urut + 1 : 1;
 
-        $no_surat = sprintf(
-            "%04d/%s/SKet PP.30.02/%s/%d",
-            $nomorUrut,
-            $kodeProdi,
-            $bulanRomawi,
-            $tahun
-        );
+        $no_surat = null;
+        if ($surat->jenis_surat === 'Surat Keterangan Aktif') {
+            $no_surat = sprintf(
+                "%04d/%s/SKet PP.30.02/%s/%d",
+                $nomorUrut,
+                $kodeProdi,
+                $bulanRomawi,
+                $tahun
+            );
+        }
 
 
 
@@ -92,7 +96,17 @@ class StaffTuDashboardController extends Controller
 
     private function generatePdfUlang($surat)
     {
-        $scriptUrl = "https://script.google.com/macros/s/AKfycbyldVFkmqRTXYR1864ZiKpO-92U0G0WjdU8hVrOEtWpuHm_tMlXtQuXTF2Iow5ofMrO/exec";
+        if ($surat->jenis_surat === 'Surat Keterangan Aktif') {
+            $scriptUrl = "https://script.google.com/macros/s/AKfycbyldVFkmqRTXYR1864ZiKpO-92U0G0WjdU8hVrOEtWpuHm_tMlXtQuXTF2Iow5ofMrO/exec";
+        } elseif ($surat->jenis_surat === 'Surat Cuti Akademik') {
+            $scriptUrl = "https://script.google.com/macros/s/AKfycbxE0hg7hdZsQJt0hZdZLY-hVNhTNfWVio5AKopUEEQ17hHFKLxJT8Pg01HC8PaPAns1zw/exec";
+        } elseif ($surat->jenis_surat === 'Surat Permohonan Aktif') {
+            $scriptUrl = "https://script.google.com/macros/s/AKfycbxOb-KdkaxW8d0U340e0hOzO7YdZuHkgKQxCCyEDHj0wFMHaRgVdWXzwmA6y2JVIG8q/exec";
+        } elseif ($surat->jenis_surat === 'Surat Persetujuan Aktif') {
+            $scriptUrl = "https://script.google.com/macros/s/AKfycbz7e76bQckzxVUaHxRA5dFz9JB8eEEZVfz8GdtxdvNp3b8IYCOfMc_UQmc-dezx_fl1YQ/exec";
+        } else {
+            return back()->with('error', 'jenis surat tidak sesuai');
+        }
 
         $payload = [
             "id" => $surat->id,
