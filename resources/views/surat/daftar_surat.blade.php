@@ -9,7 +9,7 @@
         Daftar Form Surat
     </h3>
     <form action="" class="flex items-center gap-2">
-        <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-orange-200">
+        {{-- <input type="text" placeholder="Search..." class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-orange-200"> --}}
         <a
             href="{{ route('surat.log') }}"
             class="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-300 transition">

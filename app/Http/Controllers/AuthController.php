@@ -21,20 +21,31 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Cari user berdasarkan username
-        $user = User::where('username', $request?->username)->first();
+        $user = User::where('username', $request->username)->first();
 
-        if ($user && Hash::check($request?->password, $user?->password)) {
-            if ($user->role === 'TU') {
-                Auth::login($user);
-                $request->session()->regenerate();
-                return redirect()->route('dashboard.tu'); // dashboard TU
-            }
-            // Login
+        if ($user && Hash::check($request->password, $user->password)) {
+
             Auth::login($user);
             $request->session()->regenerate();
-            return redirect()->route('home'); // mahasiswa
+
+            // ==========================
+            // REDIRECT BERDASARKAN ROLE
+            // ==========================
+            if ($user->role === 'TU') {
+                return redirect()->route('dashboard.tu');
+            }
+
+            if ($user->role === 'K') { // KAPRODI
+                return redirect()->route('kaprodi.dashboard');
+            }
+
+            // Default: Mahasiswa
+            return redirect()->route('home');
         }
+
+        return back()->withErrors([
+            'username' => 'Username atau password salah'
+        ]);
 
 
         // LDAP configuration

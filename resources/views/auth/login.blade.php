@@ -13,11 +13,11 @@
             align-items: center;
             justify-content: center;
             font-family: "Poppins", sans-serif;
-            background: linear-gradient(135deg, #ff5e62, #ff7b00, #ff7b00);
+            background: #fff;
         }
 
         .login-card {
-            background: #fff;
+            background: linear-gradient(145deg, #ff5e62, #ffa24c, #ff7b00);
             width: 350px;
             padding: 40px 30px;
             border-radius: 12px;
@@ -40,14 +40,14 @@
             font-size: 16px;
             font-weight: 600;
             margin: 0;
-            color: #333;
+            color: #fff;
         }
 
         h3 {
             font-size: 14px;
             font-weight: 500;
             margin: 5px 0 25px 0;
-            color: #555;
+            color: #ffffff;
         }
 
         .form-group {
@@ -58,7 +58,7 @@
         .form-group label {
             display: block;
             font-size: 13px;
-            color: #444;
+            color: #ffffff;
             margin-bottom: 5px;
         }
 
@@ -97,7 +97,7 @@
             margin-top: 12px;
             font-size: 13px;
             text-decoration: none;
-            color: #555;
+            color: #ffffff;
         }
 
         .forgot-password:hover {
@@ -116,7 +116,7 @@
     <div class="login-card">
         <img src="{{ asset('logo.jpeg') }}" alt="Logo Universitas YARSI">
 
-        <h2>ADMINISTRASI TATA USAHA</h2>
+        <h2>Administrasi Tata Usaha</h2>
         <h3>Fakultas Teknologi Informasi</h3>
 
         @if ($errors->any())

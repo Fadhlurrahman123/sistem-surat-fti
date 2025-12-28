@@ -52,7 +52,7 @@ class SuratCutiController extends Controller
             'ttd_kaprodi'    => $request->hasFile('ttd_kaprodi')
                 ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
                 : null,
-            'status'         => 'Menunggu'
+            'status' => 'Menunggu Kaprodi',
         ]);
 
         $this->sendToAppScriptCuti($surat);

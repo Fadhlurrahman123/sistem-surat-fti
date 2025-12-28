@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Http;
 use App\Models\SuratPengajuan;
 use App\Models\User;
 
+
 class SuratAktifController extends Controller
 {
+    protected $drive;
+
 
     public function create()
     {
@@ -18,7 +21,6 @@ class SuratAktifController extends Controller
             'jenisFull' => 'Surat Permohonan Aktif'
         ]);
     }
-
 
     public function store(Request $request)
     {
@@ -31,13 +33,13 @@ class SuratAktifController extends Controller
             'ttd_mahasiswa'   => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $user = User::where('id', Auth::id())->first();
 
+        // 3️⃣ Simpan FILE ID ke DB
         $surat = SuratPengajuan::create([
-            'user_id'        => $user->id,
-            'nama'           => $user->username,
-            'npm'            => $user->serial_number,
-            'program_studi'  => $user->study_program,
+            'user_id'        => Auth::id(),
+            'nama'           => Auth::user()->username,
+            'npm'            => Auth::user()->serial_number,
+            'program_studi'  => Auth::user()->study_program,
             'jenis_surat'    => "Surat Permohonan Aktif",
             'semester'       => $request->semester,
             'tahun_akademik' => "{$request->tahun_akademik1}/{$request->tahun_akademik2}",
@@ -51,34 +53,30 @@ class SuratAktifController extends Controller
         return redirect()->route('surat.preview', $surat->id);
     }
 
-
     public function sendToAppScriptAktif($surat)
     {
-        $scriptUrl = "https://script.google.com/macros/s/AKfycbxOb-KdkaxW8d0U340e0hOzO7YdZuHkgKQxCCyEDHj0wFMHaRgVdWXzwmA6y2JVIG8q/exec";
+        $scriptUrl = "https://script.google.com/macros/s/AKfycbzprezP8dxrF2wrKQiflK83DB4l0q8ZvnrCl93UXOi2mbILATYVDM5w6L5qHXwclB6I/exec";
 
-        $tahun = explode('/', $surat->tahun_akademik);
+        [$tahun1, $tahun2] = explode('/', $surat->tahun_akademik);
 
         $payload = [
-            "id"       => $surat->id,
-            "jenis"    => $surat->jenis_surat,
-            "nama"     => $surat->nama,
-            "npm"      => $surat->npm,
-            "prodi"    => $surat->program_studi,
-            "semester" => $surat->semester,
-            "tahun1" => $tahun[0],
-            "tahun2" => $tahun[1],
-            "tanggal"  => $surat->tanggal,
-            "ttd_mahasiswa"  => asset('storage/' . $surat->ttd_mahasiswa),
+            "id"             => $surat->id,
+            "jenis"          => $surat->jenis_surat,
+            "nama"           => $surat->nama,
+            "npm"            => $surat->npm,
+            "prodi"          => $surat->program_studi,
+            "semester"       => $surat->semester,
+            "tahun1"         => $tahun1,
+            "tahun2"         => $tahun2,
+            "tanggal"        => $surat->tanggal,
+            "ttd_mahasiswa"    => asset('storage/app/public/tanda_tangan/' . $surat->ttd),
         ];
 
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json'
-        ])->post($scriptUrl, $payload);
+        $response = Http::post($scriptUrl, $payload);
 
         if ($response->successful()) {
-            $result = $response->json();
-            if (!empty($result['pdf_url'])) {
-                $surat->update(['file_pdf' => $result['pdf_url']]);
+            if ($pdf = $response->json('pdf_url')) {
+                $surat->update(['file_pdf' => $pdf]);
             }
         }
     }

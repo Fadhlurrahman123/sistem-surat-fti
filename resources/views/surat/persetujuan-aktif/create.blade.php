@@ -17,6 +17,8 @@
         <label class="block mb-2">NPM Mahasiswa</label>
         <input type="text" name="npm" value="{{ Auth::user()->serial_number }}" readonly class="w-full p-2 border rounded mb-3 bg-gray-100">
 
+        <label class="block mb-2">Program Studi</label>
+        <input type="text" name="program_studi" value="{{ Auth::user()->study_program ?? 'undefined' }}" readonly class="w-full p-2 border rounded mb-3 bg-gray-100">
 
         <label class="block mb-2">Nama Kaprodi</label>
         <input type="text" name="nama_kaprodi" class="w-full p-2 border rounded mb-3 ">
@@ -34,8 +36,8 @@
         <input type="text" name="nominal_pembayaran" class="w-full p-2 border rounded mb-3" placeholder="Rp.1.000.000" required>
 
         <div class="flex justify-end gap-2">
-            <a href="{{ route('home') }}" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-700 transition">Kembali</a>
             <button class="px-4 py-2 bg-green-600 text-white rounded">Ajukan</button>
+            <a href="{{ route('home') }}" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-700 transition">Kembali</a>
         </div>
     </form>
 

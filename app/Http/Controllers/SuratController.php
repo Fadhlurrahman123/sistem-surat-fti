@@ -34,15 +34,19 @@ class SuratController extends Controller
     {
         // Simpan data ke database
         $data = SuratPengajuan::create([
-            'user_id' => Auth::id(),
-            'jenis_surat' => $jenis,
-            'nama' => $request->nama,
-            'npm' => $request->npm,
-            'program_studi' => $request->prodi ?? null,
-            'semester' => $request->semester ?? null,
-            'tahun_akademik1' => $request->tahun_akademik1 ?? null,
-            'tahun_akademik2' => $request->tahun_akademik2 ?? null,
-        ]);
+        'user_id' => Auth::id(),
+        'jenis_surat' => $jenis,
+        'nama' => $request->nama,
+        'npm' => $request->npm,
+        'program_studi' => $request->prodi ?? null,
+        'semester' => $request->semester ?? null,
+        'tahun_akademik1' => $request->tahun_akademik1 ?? null,
+        'tahun_akademik2' => $request->tahun_akademik2 ?? null,
+
+        // ⬇️ INI KUNCINYA
+        'status' => 'Menunggu Kaprodi',
+    ]);
+
 
         return redirect()->route('surat.preview', $data->id);
     }

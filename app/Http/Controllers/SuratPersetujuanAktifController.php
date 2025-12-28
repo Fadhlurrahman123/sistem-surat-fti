@@ -41,11 +41,13 @@ class SuratPersetujuanAktifController extends Controller
                 'user_id' => Auth::id(),
                 'nama'           => $validated['nama'],
                 'npm'            => $validated['npm'],
+                'program_studi'  => Auth::user()->study_program,
                 'jenis_surat'    => "Surat Persetujuan Aktif",
                 'nama_kaprodi'   => $validated['nama_kaprodi'],
                 'tanggal'        => $validated['tanggal'],
                 'tanggal_pengajuan'        => $validated['tanggal_pengajuan'],
                 'nominal_pembayaran' => $validated['nominal_pembayaran'],
+                'status' => 'Menunggu Kaprodi',
             ]);
         } catch (\Exception $e) {
             return dd($e->getMessage());

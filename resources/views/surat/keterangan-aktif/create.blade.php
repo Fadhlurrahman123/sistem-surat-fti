@@ -57,14 +57,11 @@
 
         {{-- Action --}}
         <div class="flex justify-end gap-2">
-            <a href="{{ route('home') }}"
-                class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition">
-                Kembali
-            </a>
             <button type="submit"
                 class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
                 Ajukan
             </button>
+            <a href="{{ route('home') }}" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-700 transition">Kembali</a>
         </div>
     </form>
 

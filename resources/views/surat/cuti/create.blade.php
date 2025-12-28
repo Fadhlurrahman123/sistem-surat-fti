@@ -55,8 +55,8 @@
         <input type="file" name="ttd_orangtua" class="w-full mb-4" required>
 
         <div class="flex justify-end gap-2">
-            <a href="{{ route('home') }}" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-700 transition">Kembali</a>
             <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Ajukan</button>
+            <a href="{{ route('home') }}" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-700 transition">Kembali</a>
         </div>
     </form>
 

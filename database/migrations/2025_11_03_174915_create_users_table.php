@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('serial_number')->nullable();
             $table->string('study_program')->nullable();
             $table->string('faculty')->nullable();
-            $table->enum('role', ['M','D','TU']); //mahasiswa dan dosen
+            $table->enum('role', ['M','D','K','DK','TU']); //mahasiswa dan dosen
             $table->timestamp('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -33,7 +33,11 @@ class SuratPengajuan extends Model
         'no_surat',
         'status',
         'catatan_tu',
+        'archived_at', // 🔥 WAJIB
+    ];
 
+    protected $casts = [
+        'archived_at' => 'datetime', // 🔥 WAJIB
     ];
 
     public function user()
@@ -41,3 +45,4 @@ class SuratPengajuan extends Model
         return $this->belongsTo(\App\Models\User::class);
     }
 }
+

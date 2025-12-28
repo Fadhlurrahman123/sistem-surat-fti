@@ -19,8 +19,81 @@ class UserSeeder extends Seeder
             'username'      => 'mahasiswa1',
             'displayname'   => 'mahasiswa account1',
             'password'      => Hash::make('password'),
+            'study_program' => 'Teknik Informatika',
             'serial_number' => '1402021045',
             'role'          => 'M',
+        ]
+    );
+
+    User::updateOrCreate(
+        ['emailyarsi' => 'mahasiswa.account2@yarsi.co.id'],
+        [
+            'username'      => 'mahasiswa2',
+            'displayname'   => 'mahasiswa account2',
+            'password'      => Hash::make('password'),
+            'study_program' => 'Perpustakaan dan Sains Informasi',
+            'serial_number' => '1502021045',
+            'role'          => 'M',
+        ]
+    );
+
+    User::updateOrCreate(
+        ['emailyarsi' => 'dosen.account1@yarsi.co.id'],
+        [
+            'username'      => 'dosen1',
+            'displayname'   => 'dosen account1',
+            'password'      => Hash::make('password'),
+            'study_program' => 'Teknik Informatika',
+            'serial_number' => '0102021045',
+            'role'          => 'D',
+        ]
+    );
+
+    User::updateOrCreate(
+        ['emailyarsi' => 'dosen.account2@yarsi.co.id'],
+        [
+            'username'      => 'dosen2',
+            'displayname'   => 'dosen account2',
+            'password'      => Hash::make('password'),
+            'study_program' => 'Perpustakaan dan Sains Informasi',
+            'serial_number' => '0102021046',
+            'role'          => 'D',
+        ]
+    );
+
+    User::updateOrCreate(
+        ['emailyarsi' => 'kaprodi.account1@yarsi.co.id'],
+        [
+            'username'      => 'kaprodi1',
+            'displayname'   => 'kaprodi account1',
+            'password'      => Hash::make('password'),
+            'study_program' => 'Teknik Informatika',
+            'serial_number' => '0202021045',
+            'role'          => 'K',
+        ]
+    );
+
+    User::updateOrCreate(
+        ['emailyarsi' => 'kaprodi.account2@yarsi.co.id'],
+        [
+            'username'      => 'kaprodi2',
+            'displayname'   => 'kaprodi account2',
+            'password'      => Hash::make('password'),
+            'study_program' => 'Perpustakaan dan Sains Informasi',
+            'serial_number' => '0202021046',
+            'role'          => 'K',
+        ]
+    );
+
+    User::updateOrCreate(
+        ['emailyarsi' => 'dekan.account1@yarsi.co.id'],
+        [
+            'username'      => 'dekan1',
+            'displayname'   => 'kaprodi account2',
+            'password'      => Hash::make('password'),
+            'faculty'       => 'Teknologi Informasi',
+            'serial_number' => '0202021046',
+            'role'          => 'DK',
         ]
     );
 

@@ -45,17 +45,6 @@ class SuratKeteranganAktifController extends Controller
             $kodeProdi = 'XX';
         }
 
-        // Ambil nomor terakhir per prodi
-        $lastSurat = SuratPengajuan::where('program_studi', $prodiFull)
-            ->where('jenis_surat', 'Surat Keterangan Aktif')
-            ->orderBy('id', 'desc')
-            ->first();
-        $nomorUrut = $lastSurat ? $lastSurat->nomor_urut + 1 : 1;
-
-        // Format nomor surat
-        $bulanRomawi = $this->bulanRomawi(now()->month);
-        $tahun = now()->year;
-        $no_surat = sprintf("No.%04d/%s/SKet PP.30.02/%s/%d", $nomorUrut, $kodeProdi, $bulanRomawi, $tahun);
 
         /// SIMPAN KE DATABASE
         $surat = SuratPengajuan::create([
@@ -66,8 +55,7 @@ class SuratKeteranganAktifController extends Controller
             'jenis_surat'   => 'Surat Keterangan Aktif',
             'tanggal'       => $request->tanggal,
             'semester'      => $request->semester,
-            'tahun_akademik1' => $request->tahun_akademik1,
-            'tahun_akademik2' => $request->tahun_akademik2,
+            'tahun_akademik' => "{$request->tahun_akademik1}/{$request->tahun_akademik2}",
             'ttd_kaprodi'   => $request->hasFile('ttd_kaprodi')
                 ? $request->file('ttd_kaprodi')->store('tanda_tangan', 'public')
                 : null,
@@ -76,7 +64,7 @@ class SuratKeteranganAktifController extends Controller
             // PENTING
             'nomor_urut'    => null,
             'no_surat'      => null,
-            'status'        => 'Menunggu',
+            'status' => 'Menunggu Kaprodi',
         ]);
 
         // KIRIM KE APPS SCRIPT
@@ -99,7 +87,7 @@ class SuratKeteranganAktifController extends Controller
      */
     public function sendToAppScriptKeteranganAktif($surat)
     {
-        $scriptUrl = "https://script.google.com/macros/s/AKfycbyldVFkmqRTXYR1864ZiKpO-92U0G0WjdU8hVrOEtWpuHm_tMlXtQuXTF2Iow5ofMrO/exec";
+        $scriptUrl = "https://script.google.com/macros/s/AKfycbyldVFkmqRTXYR1864ZiKpO-92U0G0WjdU8hVrOEtWpuHm_tMlXtQuXTF2Iow5ofMrO/exec"; // ganti sesuai Apps Script
 
         $payload = [
             "id"             => $surat->id,
@@ -109,8 +97,8 @@ class SuratKeteranganAktifController extends Controller
             "npm"            => $surat->npm,
             "prodi"          => $surat->program_studi,
             "semester"       => $surat->semester,
-            "tahun_akademik1" => $surat->tahun_akademik1,
-            "tahun_akademik2" => $surat->tahun_akademik2,
+            "tahun_akademik1"  => $tahun[0] ?? '',
+            "tahun_akademik2"  => $tahun[1] ?? '',
             "tanggal"        => $surat->tanggal,
             "ttd_kaprodi"    => asset('storage/' . $surat->ttd_kaprodi),
             "nama_kaprodi"   => $surat->nama_kaprodi,

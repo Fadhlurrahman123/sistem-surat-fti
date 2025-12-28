@@ -128,57 +128,32 @@
         </div>
         @endif
 
-        {{-- ACTION BUTTONS --}}
-        <div class="flex flex-wrap justify-end gap-3 mt-6 items-center">
+        {{-- Action Buttons --}}
+        <div class="flex justify-end gap-3 mt-6">
 
-            {{-- =========================
-                TOMBOL SETUJUI & TOLAK (KHUSUS STAFF TU)
-                ========================= --}}
+            {{-- KAPRODI --}}
             @if (
-                Auth::user()->role === 'TU' &&
-                $surat->status === 'Menunggu TU'
+                Auth::user()->role === 'K' &&
+                $surat->status === 'Menunggu Kaprodi'
             )
-                <form action="{{ route('staff-tu.approve', $surat->id) }}" method="POST">
+                <form action="{{ route('kaprodi.approve', $surat->id) }}" method="POST">
                     @csrf
                     <button type="submit"
-                        onclick="return confirm('Validasi surat ini?')"
+                        onclick="return confirm('Setujui surat ini?')"
                         class="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700">
                         Setujui
                     </button>
                 </form>
 
-                <form action="{{ route('staff-tu.reject', $surat->id) }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        onclick="return confirm('Tolak surat ini?')"
-                        class="px-5 py-2 bg-red-600 text-white rounded hover:bg-red-700">
-                        Tolak
-                    </button>
-                </form>
-            @endif
-
-
-            {{-- =========================
-                TOMBOL DOWNLOAD PDF (SELALU ADA)
-                ========================= --}}
-            @if (!empty($surat->file_pdf))
-                <a href="{{ $surat->file_pdf }}" target="_blank"
-                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
-                    Download PDF
-                </a>
-            @else
-                <button type="button" disabled
-                    title="PDF belum tersedia"
-                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
-                    Download PDF
+                <button type="button"
+                    onclick="document.getElementById('rejectModal').classList.remove('hidden')"
+                    class="px-5 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                    Tolak
                 </button>
             @endif
 
-
-            {{-- =========================
-                TOMBOL KEMBALI (SELALU ADA)
-                ========================= --}}
-            <a href="{{ route('dashboard.tu') }}"
+            {{-- KEMBALI --}}
+            <a href="{{ route('kaprodi.dashboard') }}"
                 class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">
                 Kembali
             </a>
@@ -193,17 +168,17 @@
             <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
 
                 <h3 class="text-lg font-semibold mb-4 text-red-600">
-                    Alasan Penolakan Surat
+                    Konfirmasi Penolakan
                 </h3>
 
-                <form action="{{ route('staff-tu.reject', $surat->id) }}" method="POST">
+                <p class="mb-6 text-gray-600">
+                    Apakah Anda yakin ingin menolak surat ini?
+                </p>
+
+                <form action="{{ route('kaprodi.reject', $surat->id) }}" method="POST">
                     @csrf
 
-                    <textarea name="catatan_tu" rows="4" required
-                        class="w-full border rounded-lg p-3 focus:ring focus:ring-red-300"
-                        placeholder="Masukkan alasan penolakan..."></textarea>
-
-                    <div class="flex justify-end mt-4 gap-3">
+                    <div class="flex justify-end gap-3">
                         <button type="button"
                             onclick="document.getElementById('rejectModal').classList.add('hidden')"
                             class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">

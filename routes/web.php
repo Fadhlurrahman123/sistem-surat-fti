@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StaffTuDashboardController;
+use App\Http\Controllers\KaprodiDashboardController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\SuratAktifController;
 use App\Http\Controllers\SuratCutiController;
@@ -44,7 +45,7 @@ Route::middleware('auth')->group(function () {
 
     // ---- SURAT keterangan AKTIF ----
     Route::get('/ajukan-surat/keterangan-aktif', [SuratKeteranganAktifController::class, 'create'])
-        ->name('surat.keterangan-aktif.create');
+    ->name('surat.keterangan-aktif.create');
 
     Route::post('/ajukan-surat/keterangan-aktif', [SuratKeteranganAktifController::class, 'store'])
         ->name('surat.keterangan-aktif.store');
@@ -74,6 +75,12 @@ Route::middleware('auth')->group(function () {
         ->name('staff-tu.preview');
 
     Route::post(
+        '/staff-tu/surat/{id}/arsipkan',
+        [StaffTuDashboardController::class, 'arsipkan']
+    )->name('staff-tu.arsipkan');
+
+
+    Route::post(
         '/dashboard-tu/surat/{id}/approve',
         [StaffTuDashboardController::class, 'approve']
     )->name('staff-tu.approve');
@@ -84,14 +91,33 @@ Route::middleware('auth')->group(function () {
     )->name('staff-tu.reject');
 
 
+
     Route::delete('/log-surat/{id}/delete', [SuratController::class, 'delete'])
         ->name('surat.delete');
 
     Route::get('/surat/download/{id}', [SuratController::class, 'downloadPdf'])
         ->name('surat.download');
+
+
+
+    Route::get('/kaprodi/dashboard',
+        [KaprodiDashboardController::class, 'index']
+    )->name('kaprodi.dashboard');
+
+    Route::get('/kaprodi/preview/{id}',
+        [KaprodiDashboardController::class, 'preview']
+    )->name('kaprodi.preview');
+
+    Route::post('/kaprodi/approve/{id}',
+        [KaprodiDashboardController::class, 'approve']
+    )->name('kaprodi.approve');
+
+    Route::post('/kaprodi/reject/{id}',
+        [KaprodiDashboardController::class, 'reject']
+    )->name('kaprodi.reject');
 });
 
 // Route::middleware(['auth', 'role:TU'])->group(function () {
 
-    
+
 // });

@@ -14,6 +14,13 @@ class JenisSuratSeeder extends Seeder
             ['nama_surat' => 'Surat Permohonan Aktif'],
             ['nama_surat' => 'Surat Persetujuan Aktif Akademik'],
             ['nama_surat' => 'Surat Keterangan Aktif'],
+            ['nama_surat' => 'Surat Keterangan Pernah Kuliah'],
+            ['nama_surat' => 'Surat Observasi Penelitian Skripsi'],
+            ['nama_surat' => 'Surat Observasi Tugas Mata Kuliah'],
+            ['nama_surat' => 'Surat Pengantar Remedial'],
+            ['nama_surat' => 'Surat Pengunduran Diri'],
+            ['nama_surat' => 'Surat Pernyataan Tidak Menerima Beasiswa'],
+            ['nama_surat' => 'Surat Rekomendasi Magang'],
             ['nama_surat' => 'Surat Rekomendasi Beasiswa'],
         ]);
     }

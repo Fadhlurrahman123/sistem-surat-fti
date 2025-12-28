@@ -56,45 +56,84 @@
                     <th class="px-3 py-2 text-left">Jenis Surat</th>
                     <th class="px-3 py-2 text-left">NPM Mahasiswa</th>
                     <th class="px-3 py-2 text-left">Nama Mahasiswa</th>
+                    <th class="px-3 py-2 text-left">Prodi</th>
                     <th class="px-3 py-2 text-left">Waktu Pengajuan</th>
                     <th class="px-3 py-2 text-left">Status</th>
+                    <th class="px-3 py-2 text-left">Status Arsip</th>
                     <th class="px-3 py-2 text-left">Aksi</th>
+
                 </tr>
             </thead>
 
             <tbody>
-                @foreach ($surat as $i => $s)
-                <tr onclick="window.location='{{ route('staff-tu.preview', $s->id) }}'"
-                    class="cursor-pointer hover:bg-orange-100 transition">
+                @forelse ($surat as $i => $s)
+                    <tr onclick="window.location='{{ route('staff-tu.preview', $s->id) }}'"
+                        class="cursor-pointer hover:bg-orange-100 transition">
 
-                    <td class="px-3 py-2">{{ $i + 1 }}</td>
-                    <td class="px-3 py-2">{{ $s->no_surat }}</td>
-                    <td class="px-3 py-2">{{ $s->jenis_surat }}</td>
-                    <td class="px-3 py-2">{{ $s->npm }}</td>
-                    <td class="px-3 py-2">{{ $s->nama }}</td>
-                    <td class="px-3 py-2">{{ $s->created_at->format('H:i - d/m/Y') }}</td>
-                    <td class="px-3 py-2">{{ $s->status ?? 'Menunggu' }}</td>
+                        <td class="px-3 py-2">{{ $i + 1 }}</td>
+                        <td class="px-3 py-2">{{ $s->no_surat }}</td>
+                        <td class="px-3 py-2">{{ $s->jenis_surat }}</td>
+                        <td class="px-3 py-2">{{ $s->npm }}</td>
+                        <td class="px-3 py-2">{{ $s->nama }}</td>
+                        <td class="px-3 py-2">{{ $s->program_studi }}</td>
+                        <td class="px-3 py-2">{{ $s->created_at->format('H:i - d/m/Y') }}</td>
+                        <td class="px-3 py-2">{{ $s->status ?? 'Menunggu' }}</td>
 
-                    <!-- Tombol Hapus -->
-                    <td class="px-3 py-2">
-                        <form action="{{ route('surat.delete', $s->id) }}"
-                            method="POST"
-                            onsubmit="event.stopPropagation(); return confirm('Yakin ingin menghapus surat ini?')"
-                            onclick="event.stopPropagation();">
+                        {{-- STATUS ARSIP --}}
+                        <td class="px-3 py-2">
+                            @if ($s->archived_at)
+                                <span class="text-green-600 font-semibold text-sm">
+                                    ✓ Diarsipkan
+                                </span>
+                            @else
+                                <span class="text-gray-500 text-sm">
+                                    Belum diarsipkan
+                                </span>
+                            @endif
+                        </td>
 
-                            @csrf
-                            @method('DELETE')
+                        <!-- Tombol arsip -->
+                        <td class="px-3 py-2 flex gap-2">
 
-                            <button type="submit"
-                                class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition text-sm">
-                                Hapus
-                            </button>
-                        </form>
-                    </td>
+                            @if ($s->status === 'Disetujui' && $s->archived_at === null)
+                            <form action="{{ route('staff-tu.arsipkan', $s->id) }}"
+                                method="POST"
+                                onclick="event.stopPropagation()"
+                                onsubmit="return confirm('Arsipkan surat ini ke Spreadsheet?')">
+                                @csrf
+                                <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                                    Arsipkan
+                                </button>
+                            </form>
+                            @endif
 
-                </tr>
-                @endforeach
+                            {{-- TOMBOL HAPUS --}}
+                            <form action="{{ route('surat.delete', $s->id) }}"
+                                method="POST"
+                                onsubmit="event.stopPropagation(); return confirm('Yakin ingin menghapus surat ini?')"
+                                onclick="event.stopPropagation();">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit"
+                                    class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm">
+                                    Hapus
+                                </button>
+                            </form>
+
+                        </td>
+
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="8" class="text-center py-6 text-gray-500">
+                            Belum ada surat yang diajukan.
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
+
 
         </table>
 
